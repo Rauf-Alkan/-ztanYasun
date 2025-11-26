@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Ahmet Yılmaz",
+    "treatment": "İmplant Tedavisi",
+    "comment": "İmplant tedavisi düşündüğümden daha konforlu geçti; ekip her aşamayı önceden anlatarak güven verdi.",
+    "initials": "AY"
+  },
+  {
+    "name": "Zeynep Demir",
+    "treatment": "Kanal Tedavisi",
+    "comment": "Kanal tedavisi sırasında hiç ağrı hissetmedim, işlem sonrası bakım önerileriyle hızlıca iyileştim.",
+    "initials": "ZD"
+  },
+  {
+    "name": "Murat Can",
+    "treatment": "Ortodonti",
+    "comment": "Şeffaf plak tedavisi titizlikle planlandı, kontrollerde her soruma sabırla yanıt aldım.",
+    "initials": "MC"
+  },
+  {
+    "name": "Elif Kaya",
+    "treatment": "Gülüş Tasarımı",
+    "comment": "Mock-up sürecinden final uygulamaya kadar tüm aşamalarda şeffaf iletişim ve mükemmel sonuç.",
+    "initials": "EK"
+  }
+]

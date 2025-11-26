@@ -1,0 +1,9 @@
+# .gitignore dosyası içeriği:
+node_modules
+.next
+.env
+.env.local
+out
+build
+.DS_Store
+*.log
