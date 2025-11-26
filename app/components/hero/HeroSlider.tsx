@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import heroSlides from "@/data/heroSlides";
 import HeroSlide from "./HeroSlide";
 
-const AUTO_INTERVAL = 8000;
+const AUTO_INTERVAL = 4000;
 
 const HeroSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,15 +19,16 @@ const HeroSlider = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timer = setTimeout(() => {
       goToSlide("next");
     }, AUTO_INTERVAL);
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearTimeout(timer);
+    // currentIndex bağımlılığı: manuel tıklama sonrası süreyi sıfırlar
+  }, [currentIndex]);
 
   return (
     <section className="bg-gradient-to-b from-[#FFF4E6] via-white to-[#ECF2FF] pb-10 pt-4 md:pb-20 md:pt-8">
-      <div className="mx-auto w-full max-w-[1400px] px-0 sm:px-4">
+      <div className="mx-auto w-full max-w-[1700px] px-0 sm:px-2 md:px-4">
         <div className="relative overflow-hidden bg-white/60 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:rounded-[40px] border border-white/50 backdrop-blur-sm">
           <div className="relative min-h-[600px] sm:min-h-[700px] lg:min-h-[800px]">
             {heroSlides.map((slide, index) => (
@@ -38,7 +39,7 @@ const HeroSlider = () => {
               />
             ))}
           </div>
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-2 sm:px-6">
+          <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-between px-2 sm:px-6">
             <button
               type="button"
               className="pointer-events-auto rounded-full border border-white/80 bg-white/80 p-2 text-[#384B70] shadow-sm transition hover:scale-110 hover:bg-white active:scale-95 sm:p-3"

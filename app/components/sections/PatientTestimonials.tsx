@@ -123,7 +123,7 @@ const PatientTestimonials = () => {
           <button
             type="button"
             aria-label="Önceki yorum"
-            className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-slate-200 bg-white p-3 shadow-lg transition hover:border-[#384B70] hover:text-[#384B70] sm:-left-2"
+            className="pointer-events-auto absolute left-0 top-1/2 z-20 -translate-y-1/2 rounded-full border border-slate-200 bg-white p-3 shadow-lg transition hover:border-[#384B70] hover:text-[#384B70] sm:-left-2"
             onClick={handlePrev}
           >
             <svg
@@ -144,7 +144,7 @@ const PatientTestimonials = () => {
           <button
             type="button"
             aria-label="Sonraki yorum"
-            className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-slate-200 bg-white p-3 shadow-lg transition hover:border-[#384B70] hover:text-[#384B70] sm:-right-2"
+            className="pointer-events-auto absolute right-0 top-1/2 z-20 -translate-y-1/2 rounded-full border border-slate-200 bg-white p-3 shadow-lg transition hover:border-[#384B70] hover:text-[#384B70] sm:-right-2"
             onClick={handleNext}
           >
             <svg

@@ -70,8 +70,22 @@ export async function POST(req: Request) {
       systemInstruction,
     });
 
+    // Gemini ilk mesajın mutlaka "user" rolünde olmasını bekler. History'i temizleyip,
+    // ilk user mesajından öncesini atıyoruz.
+    const cleanHistory = Array.isArray(history)
+      ? history.filter(
+          (msg): msg is ChatMessage =>
+            !!msg &&
+            (msg as ChatMessage).role !== undefined &&
+            Array.isArray((msg as ChatMessage).parts),
+        )
+      : [];
+    const firstUserIndex = cleanHistory.findIndex((msg) => msg.role === "user");
+    const normalizedHistory =
+      firstUserIndex === -1 ? [] : cleanHistory.slice(firstUserIndex);
+
     const chat = model.startChat({
-      history: Array.isArray(history) ? history : [],
+      history: normalizedHistory,
     });
 
     const result = await chat.sendMessage(trimmedMessage);
