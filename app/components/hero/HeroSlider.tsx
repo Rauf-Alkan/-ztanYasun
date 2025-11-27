@@ -23,14 +23,16 @@ const HeroSlider = () => {
       goToSlide("next");
     }, AUTO_INTERVAL);
     return () => clearTimeout(timer);
-    // currentIndex bağımlılığı: manuel tıklama sonrası süreyi sıfırlar
   }, [currentIndex]);
 
   return (
-    <section className="bg-gradient-to-b from-[#FFF4E6] via-white to-[#ECF2FF] pb-10 pt-4 md:pb-20 md:pt-8">
-      <div className="mx-auto w-full max-w-[1700px] px-0 sm:px-2 md:px-4">
-        <div className="relative overflow-hidden bg-white/60 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:rounded-[40px] border border-white/50 backdrop-blur-sm">
-          <div className="relative min-h-[600px] sm:min-h-[700px] lg:min-h-[800px]">
+    // Mobilde padding'i azalttık (pt-2) ve yüksekliği ayarladık
+    <section className="bg-gradient-to-b from-[#FFF4E6] via-white to-[#ECF2FF] pb-8 pt-2 md:pb-20 md:pt-8">
+      <div className="mx-auto w-full max-w-[1700px] px-2 sm:px-4">
+        <div className="relative overflow-hidden bg-white/60 shadow-[0_15px_40px_rgba(15,23,42,0.05)] rounded-[32px] sm:rounded-[40px] border border-white/50 backdrop-blur-sm">
+          
+          {/* YÜKSEKLİK AYARI: Mobilde "min-h-[650px]" yaparak resim+metin sığmasını sağladık */}
+          <div className="relative min-h-[680px] sm:min-h-[700px] lg:min-h-[800px]">
             {heroSlides.map((slide, index) => (
               <HeroSlide
                 key={slide.title}
@@ -39,10 +41,12 @@ const HeroSlider = () => {
               />
             ))}
           </div>
-          <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-between px-2 sm:px-6">
+
+          {/* OKLAR: Mobilde gizledik (Resmin üstüne binmesin diye), Desktopta gösterdik */}
+          <div className="pointer-events-none absolute inset-0 z-40 hidden sm:flex items-center justify-between px-6">
             <button
               type="button"
-              className="pointer-events-auto rounded-full border border-white/80 bg-white/80 p-2 text-[#384B70] shadow-sm transition hover:scale-110 hover:bg-white active:scale-95 sm:p-3"
+              className="pointer-events-auto rounded-full border border-white/80 bg-white/80 p-3 text-[#384B70] shadow-sm transition hover:scale-110 hover:bg-white active:scale-95"
               onClick={() => goToSlide("prev")}
               aria-label="Önceki"
             >
@@ -52,7 +56,7 @@ const HeroSlider = () => {
             </button>
             <button
               type="button"
-              className="pointer-events-auto rounded-full border border-white/80 bg-white/80 p-2 text-[#384B70] shadow-sm transition hover:scale-110 hover:bg-white active:scale-95 sm:p-3"
+              className="pointer-events-auto rounded-full border border-white/80 bg-white/80 p-3 text-[#384B70] shadow-sm transition hover:scale-110 hover:bg-white active:scale-95"
               onClick={() => goToSlide("next")}
               aria-label="Sonraki"
             >
@@ -62,15 +66,16 @@ const HeroSlider = () => {
             </button>
           </div>
 
-          <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-2 z-30">
+          {/* DOTS (Pagination) */}
+          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 z-30">
             {heroSlides.map((_, index) => (
               <button
                 key={`dot-${index}`}
                 onClick={() => setCurrentIndex(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
+                className={`h-1.5 rounded-full transition-all duration-300 ${
                   currentIndex === index 
-                  ? "w-8 bg-[#384B70]" 
-                  : "w-2 bg-[#384B70]/30 hover:bg-[#384B70]/50"
+                  ? "w-6 bg-[#384B70]" 
+                  : "w-1.5 bg-[#384B70]/30 hover:bg-[#384B70]/50"
                 }`}
                 aria-label={`Slide ${index + 1}`}
               >
