@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@auth/core": "^0.34.3",
-    "@google/generative-ai": "^0.24.1",
+    "@google/genai": "^1.30.0",
     "@prisma/client": "^6.19.0",
     "gray-matter": "^4.0.3",
     "localtunnel": "^2.0.2",
