@@ -95,7 +95,7 @@ export async function POST(req: Request) {
     // NOT: 404 hatası almamak için "gemini-1.5-flash" kullanıyoruz.
     // Eğer Google hesabın 2.5'e yetkiliyse "gemini-2.5-flash" yapabilirsin.
     const chat = ai.chats.create({
-      model: "gemini-1.5-flash", 
+      model: "gemini-2.5-flash", 
       config: {
         systemInstruction: systemInstruction,
         temperature: 0.5, // Daha kararlı ve kuralcı olması için düşürdük
