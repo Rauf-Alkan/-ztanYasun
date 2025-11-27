@@ -3,23 +3,19 @@ import BlogGrid from "./_components/BlogGrid";
 import { prisma } from "@/lib/db";
 
 export const metadata: Metadata = {
-  title: "Dr. Öztan Yasun | Hekimden Tavsiyeler - Ankara",
-  description: "Estetik diş hekimliği ve implantoloji alanında Dr. Öztan Yasun'un makaleleri ve güncel yaklaşımları.",
-  openGraph: {
-    title: "Dr. Öztan Yasun | Hekimden Tavsiyeler",
-    description: "Estetik diş hekimliği ve implantoloji alanında Dr. Öztan Yasun'un makaleleri ve güncel yaklaşımları.",
-    type: "website",
-    url: "https://www.droztanyasun.com/blog",
-  },
+  title: "Blog | Dr. Öztan Yasun",
+  description: "Estetik diş hekimliği, implant ve ağız sağlığı hakkında uzman makaleleri.",
 };
 
 export const dynamic = "force-dynamic";
 
 const BlogPage = async () => {
+  // Tüm postları çek
   const posts = await prisma.blogPost.findMany({
     orderBy: { publishedAt: "desc" },
   });
 
+  // Veriyi serileştir
   const blogs = posts.map((post) => ({
     id: post.id,
     title: post.title,
@@ -33,8 +29,8 @@ const BlogPage = async () => {
   }));
 
   return (
-    <main className="bg-gradient-to-b from-white via-slate-50 to-white py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <main className="bg-white py-20 lg:py-28">
+      <div className="container-custom">
         <BlogGrid blogs={blogs} />
       </div>
     </main>

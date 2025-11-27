@@ -1,99 +1,134 @@
-// sections/Team.tsx
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { LuGraduationCap, LuAward, LuStethoscope, LuQuote } from "react-icons/lu";
 
 export const dynamic = "force-dynamic";
 
-export const teamMembers = [
+// TEK DOKTOR VERİSİ
+const doctor = {
+  name: "Dr. Öztan Yasun",
+  title: "Diş Hekimi & Kurucu",
+  bio: "Hacettepe Üniversitesi Diş Hekimliği Fakültesi'nden onur derecesiyle mezun olan Dr. Öztan Yasun, meslek hayatını estetik diş hekimliği ve implantoloji üzerine derinleştirmiştir. 'Az müdahale, çok estetik' felsefesiyle, dijital teknolojileri kullanarak hastalarına ağrısız ve öngörülebilir tedavi süreçleri sunar.",
+  education: "Hacettepe Üniversitesi Diş Hekimliği Fakültesi",
+  experience: "15+ Yıl Deneyim",
+  image: "/doctor1.webp" // Buraya doktorun en karizmatik fotoğrafı gelecek
+};
+
+// YETKİNLİK KARTLARI (Ekip yoksa, yetkinlikleri dizeriz)
+const expertise = [
   {
-    name: "Uzm. Dt. Elif Yılmaz",
-    title: "İmplant ve Cerrahi",
-    photo: "/doctor1.webp",
-    summary:
-      "Uludağ Üniversitesi Diş Hekimliği Fakültesi’nden mezun olan Dt. Elif, ileri implantoloji ve rehberli cerrahi üzerine uzmanlaşmıştır. Dijital planlama ve minimal invaziv tekniklere odaklanarak hastalarına en konforlu tedavi süreçlerini sunar.",
+    icon: <LuStethoscope className="w-6 h-6" />,
+    title: "İmplant Cerrahisi",
+    desc: "İleri cerrahi teknikler ve kemik ogmentasyonu."
   },
   {
-    name: "Uzm. Dt. Zeynep Demir",
-    title: "Estetik Diş Hekimi",
-    photo: "/doctor2.webp",
-    summary:
-      "Hacettepe Üniversitesi mezunu olan Dt. Zeynep, estetik restorasyonlar ve gülüş tasarımında 10 yılı aşkın deneyime sahiptir. Dijital mock-up ve kişiye özel renk planlama teknikleriyle doğala en yakın sonuçları hedefler.",
+    icon: <LuAward className="w-6 h-6" />,
+    title: "Gülüş Tasarımı",
+    desc: "Dijital (CAD/CAM) estetik planlama."
   },
   {
-    name: "Uzm. Dt. Deniz Akman",
-    title: "Ortodonti ve Pedodonti",
-    photo: "/doctor3.webp",
-    summary:
-      "Ankara Üniversitesi mezunu Dt. Deniz, şeffaf plak tedavilerini dijital ölçülerle planlar. Özellikle çocuk hastalarda davranış odaklı yaklaşımı ve koruyucu hekimlik uygulamalarıyla tanınır.",
-  },
+    icon: <LuGraduationCap className="w-6 h-6" />,
+    title: "Şeffaf Plak",
+    desc: "Telsiz ortodonti sertifikalı uygulayıcı."
+  }
 ];
 
 const Team = () => {
   return (
-    <section id="team" className="bg-white py-24 md:py-32 border-t border-neutral-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="team" className="section-spacing bg-white">
+      <div className="container-custom">
         
-        {/* HEADER */}
-        <div className="text-center space-y-4 md:space-y-5 mb-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#384B70]">
-            EKİBİMİZ
-          </p>
-          <h2 className="font-heading text-3xl tracking-tight text-slate-900 md:text-4xl md:leading-relaxed">
-            Alanında uzman hekimlerimizle tanışın
-          </h2>
-          <p className="mx-auto max-w-3xl text-base leading-relaxed text-slate-600 md:leading-loose">
-            Modern klinik altyapımızı deneyimli hekimlerimizle birleştirerek her hastamıza kişiye özel, şeffaf ve güvenilir çözümler sunuyoruz.
-          </p>
+        {/* --- DOKTOR PROFİLİ (SPLIT LAYOUT) --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
+          
+          {/* SOL: FOTOĞRAF (Büyük ve Etkileyici) */}
+          <div className="relative order-1">
+            <div className="relative aspect-[4/5] w-full max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-2xl shadow-slate-200 border border-slate-100">
+               <Image
+                 src={doctor.image}
+                 alt={doctor.name}
+                 fill
+                 className="object-cover"
+                 priority
+               />
+               {/* İsim Etiketi (Overlay) */}
+               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--color-brand-navy)] to-transparent p-6 pt-24 text-white">
+                  <h3 className="font-heading text-2xl font-bold">{doctor.name}</h3>
+                  <p className="text-[var(--color-brand-gold)] text-sm font-bold uppercase tracking-wider">
+                    {doctor.title}
+                  </p>
+               </div>
+            </div>
+            {/* Dekoratif Arka Plan */}
+            <div className="absolute top-10 -left-10 w-full h-full border-2 border-[var(--color-brand-gold)] rounded-2xl -z-10 hidden lg:block opacity-30" />
+          </div>
+
+          {/* SAĞ: BİYOGRAFİ & FELSEFE */}
+          <div className="order-2 space-y-8 text-center lg:text-left">
+            <div>
+               <span className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--color-brand-gold)] mb-3 block">
+                 Klinik Kurucusu
+               </span>
+               <h2 className="font-heading text-4xl lg:text-5xl text-[var(--color-brand-navy)] leading-tight">
+                 Estetik ve Güvenin <br/>
+                 <span className="text-slate-400">Tek Adresi</span>
+               </h2>
+            </div>
+
+            <div className="relative p-6 bg-[var(--color-brand-gray)] rounded-xl border-l-4 border-[var(--color-brand-navy)] text-left">
+               <LuQuote className="text-[var(--color-brand-gold)] w-8 h-8 mb-2 opacity-50" />
+               <p className="text-slate-700 italic text-lg leading-relaxed">
+                 &ldquo;Hastalarımın koltuğa oturduğunda hissettiği güven duygusu, benim için en büyük başarıdır. Her vaka, kişiye özel bir sanat eseridir.&rdquo;
+               </p>
+            </div>
+
+            <p className="text-slate-600 leading-relaxed text-lg">
+               {doctor.bio}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+               <Link 
+                 href="/iletisim" 
+                 className="px-8 py-3.5 bg-[var(--color-brand-navy)] text-white font-bold rounded-lg hover:bg-[var(--color-brand-navy-light)] transition-all shadow-lg shadow-blue-900/20"
+               >
+                 Randevu Oluştur
+               </Link>
+               <a 
+                 href="https://www.instagram.com/" // Varsa linki koy
+                 target="_blank"
+                 className="px-8 py-3.5 border border-slate-200 text-slate-600 font-bold rounded-lg hover:border-[var(--color-brand-navy)] hover:text-[var(--color-brand-navy)] transition-all flex items-center justify-center gap-2"
+               >
+                 Instagram&apos;da Takip Et
+               </a>
+            </div>
+          </div>
         </div>
 
-        {/* GRID YAPISI */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {teamMembers.map((doctor) => (
-            <article
-              key={doctor.name}
-              // DÜZELTME 1: Kart Yapısı (Border + Bg + Shadow)
-              // Artık 'blok' değil, net bir 'kart' görünümünde.
-              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-            >
-              {/* FOTOĞRAF ALANI */}
-              <div className="mb-6 overflow-hidden rounded-xl bg-neutral-100 shadow-inner">
-                <img
-                  src={doctor.photo}
-                  alt={doctor.name}
-                  className="aspect-[4/5] w-full object-cover object-top transition duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-
-              {/* İÇERİK ALANI */}
-              <div className="flex flex-1 flex-col">
-                <h3 className="text-xl font-semibold text-neutral-900">
-                  {doctor.name}
-                </h3>
-                
-                <p className="mt-1 text-sm font-medium text-[#384B70]">
-                  {doctor.title}
-                </p>
-                
-                <p className="mt-4 text-sm leading-relaxed text-neutral-600">
-                  {doctor.summary}
-                </p>
-              </div>
-
-              {/* DÜZELTME 2 & 3: "Hekim" silindi, CTA Hizalandı */}
-              {/* mt-auto sayesinde içerik kısa da olsa buton hep en altta hizalı kalır */}
-              <div className="mt-auto pt-6">
-                <div className="border-t border-neutral-100 pt-4">
-                  <Link
-                    href="/iletisim"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#384B70] transition-all group-hover:gap-3 group-hover:text-[#D7C3A3]"
-                  >
-                    Randevu Oluştur
-                    <span aria-hidden="true">→</span>
-                  </Link>
-                </div>
-              </div>
-            </article>
-          ))}
+        {/* --- UZMANLIK ALANLARI (Ekip yerine Yetkinlikler) --- */}
+        <div className="border-t border-slate-100 pt-20">
+           <div className="text-center mb-12">
+              <h3 className="font-heading text-2xl text-[var(--color-brand-navy)]">
+                 Uzmanlık Alanları
+              </h3>
+           </div>
+           
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {expertise.map((item, idx) => (
+                 <div key={idx} className="group bg-white p-6 rounded-xl border border-slate-100 hover:border-[var(--color-brand-gold)] shadow-sm hover:shadow-md transition-all text-center lg:text-left flex flex-col items-center lg:items-start">
+                    <div className="w-12 h-12 bg-[var(--color-brand-navy)]/5 text-[var(--color-brand-navy)] rounded-full flex items-center justify-center mb-4 group-hover:bg-[var(--color-brand-navy)] group-hover:text-white transition-colors">
+                       {item.icon}
+                    </div>
+                    <h4 className="font-bold text-lg text-[var(--color-brand-navy)] mb-2">
+                       {item.title}
+                    </h4>
+                    <p className="text-slate-500 text-sm">
+                       {item.desc}
+                    </p>
+                 </div>
+              ))}
+           </div>
         </div>
 
       </div>

@@ -1,248 +1,263 @@
-import type { BlogPost } from "@prisma/client";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { prisma } from "@/lib/db";
+
+// Bileşen İmportları
 import HeroSlider from "@/components/hero/HeroSlider";
 import PatientTestimonials from "@/components/sections/PatientTestimonials";
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { services } from "@/components/sections/Services";
-import { teamMembers } from "@/components/sections/Team";
-import { prisma } from "@/lib/db";
 
-// ÖZTAN YASUN MARKALAMASI - SEO
+// İkonlar
+import { LuArrowRight, LuCheck, LuCalendar } from "react-icons/lu";
+
 export const metadata: Metadata = {
   title: "Dr. Öztan Yasun | Estetik Diş Hekimi - Ankara",
-  description:
-    "Dr. Öztan Yasun ile Ankara'da modern diş hekimliği. İmplant, zirkonyum ve gülüş tasarımında kişiye özel, ağrısız ve estetik çözümler.",
+  description: "Ankara estetik diş hekimliği, implant ve gülüş tasarımı. Dr. Öztan Yasun ile kişiye özel, dijital destekli diş tedavileri.",
 };
 
 export const dynamic = "force-dynamic";
 
-const formatBlogDate = (date: Date) => {
+// Yardımcı Fonksiyon
+const formatDate = (date: Date) => {
   try {
-    return new Intl.DateTimeFormat("tr-TR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }).format(date);
-  } catch {
-    return date.toISOString().split("T")[0];
-  }
+    return new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric" }).format(date);
+  } catch { return date.toISOString().split("T")[0]; }
+};
+
+// DÜZELTME 1: id: string yerine id: number yapıldı (Prisma uyumu için)
+type BlogPostSummary = {
+  id: number;
+  title: string;
+  slug: string;
+  summary: string;
+  coverImage: string | null;
+  publishedAt: Date;
 };
 
 const Home = async () => {
   const featuredServices = services.slice(0, 6);
-  const featuredTeam = teamMembers.slice(0, 2);
-
-  let latestPosts: BlogPost[] = [];
-
+  
+  let latestPosts: BlogPostSummary[] = [];
+  
   try {
-    latestPosts = await prisma.blogPost.findMany({
-      orderBy: { publishedAt: "desc" },
+    const posts = await prisma.blogPost.findMany({ 
+      orderBy: { publishedAt: "desc" }, 
       take: 3,
+      select: { id: true, title: true, slug: true, summary: true, coverImage: true, publishedAt: true } 
     });
-  } catch (error) {
-    console.error("Blog postları çekilemedi:", error);
+    // Tip dönüşümü
+    latestPosts = posts as BlogPostSummary[];
+  } catch (error) { 
+    console.error("Blog fetch error:", error); 
   }
 
   return (
-    <main>
+    <main className="bg-white">
+      
       <HeroSlider />
       
-      {/* HİZMETLER - DR. ÖZTAN YASUN VURGUSU */}
-      <section className="bg-gradient-to-b from-[#FFF7EF] via-white to-[#F2F7FF] py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-[#384B70]">
-                Dr. Öztan Yasun Klinik
+      {/* --- 1. BÖLÜM: HİZMETLER --- */}
+      <section className="section-spacing bg-white">
+          <div className="container-custom">
+            <div className="text-center mb-16">
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--color-brand-gold)] mb-3 block">
+                Klinik Protokolleri
+              </span>
+              <h2 className="font-heading text-3xl md:text-5xl text-[var(--color-brand-navy)] mb-6">
+                Kişiye Özel Tedavi Çözümleri
+              </h2>
+              <p className="mx-auto max-w-2xl text-slate-600 text-lg leading-relaxed">
+                Estetik ve fonksiyonu birleştiren dijital diş hekimliği çözümleriyle, 
+                gülüşünüzü bilimin ve sanatın ışığında yeniden tasarlıyoruz.
               </p>
-              <div className="mb-12 space-y-4">
-                <h2 className="font-heading text-3xl tracking-tight text-slate-900 md:text-4xl">
-                  Kişiye Özel Tedavi Protokolleri
-                </h2>
-                <div className="mx-auto accent-line" />
-                <p className="mx-auto max-w-3xl text-center text-lg leading-relaxed text-slate-600">
-                  Dr. Öztan Yasun ve ekibi, estetik ve fonksiyonu birleştiren dijital diş hekimliği çözümleriyle gülüşünüzü yeniden tasarlıyor.
-                </p>
-              </div>
             </div>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredServices.map((service) => (
                 <Link
-                  key={service.title}
+                  key={service.slug}
                   href={`/hizmetler/${service.slug}`}
-                  className="group block h-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D7C3A3]"
+                  className="group relative flex flex-col p-8 rounded-2xl bg-white border border-slate-100 shadow-lg shadow-slate-200/40 hover:shadow-xl hover:border-[var(--color-brand-gold)] hover:-translate-y-1 transition-all duration-300"
                 >
-                  <article className="flex h-full flex-col rounded-2xl border border-slate-100 bg-white/95 p-7 shadow-[0_20px_45px_rgba(15,23,42,0.08)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(15,23,42,0.14)]">
-                    <span className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#F3EBDF] text-2xl text-[#384B70]">
-                      {service.icon}
-                    </span>
-                    <h3 className="mb-3 text-xl font-semibold text-slate-900">{service.title}</h3>
-                    <p className="text-base leading-relaxed text-slate-600">{service.description}</p>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#384B70] transition group-hover:gap-3">
-                      İncele
-                      <span aria-hidden="true">→</span>
-                    </span>
-                  </article>
+                  <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--color-brand-navy)]/5 text-[var(--color-brand-navy)] text-3xl group-hover:bg-[var(--color-brand-navy)] group-hover:text-white transition-colors duration-300">
+                    {service.icon}
+                  </div>
+                  <h3 className="mb-3 text-xl font-bold text-[var(--color-brand-navy)]">{service.title}</h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed text-sm flex-grow">{service.description}</p>
+                  
+                  <div className="mt-auto pt-4 border-t border-slate-50 flex items-center text-[var(--color-brand-navy)] font-bold text-sm group-hover:gap-2 transition-all">
+                    İncele <LuArrowRight className="ml-2 w-4 h-4" />
+                  </div>
                 </Link>
               ))}
             </div>
+            
             <div className="mt-12 text-center">
-              <Link
-                href="/hizmetler"
-                className="inline-flex items-center justify-center rounded-full border border-[#384B70] bg-[#384B70] px-8 py-3.5 text-base font-semibold text-white shadow-[0_20px_45px_rgba(56,75,112,0.25)] transition hover:bg-opacity-90"
-              >
-                Tüm Tedaviler
-              </Link>
+               <Link href="/hizmetler" className="inline-flex items-center gap-2 text-[var(--color-brand-navy)] font-bold border-b-2 border-[var(--color-brand-gold)] pb-1 hover:text-[var(--color-brand-gold)] transition-colors">
+                  Tüm Tedavileri Görüntüle <LuArrowRight />
+               </Link>
             </div>
           </div>
       </section>
 
-      {/* BLOG - HEKİMDEN TAVSİYELER */}
-      <section className="bg-gradient-to-b from-[#EEF3FF] via-white to-[#F7F9FF] py-24">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-[#384B70]">Akademik Bakış</p>
-              <h2 className="font-heading text-3xl tracking-tight text-slate-900 md:text-4xl">
-                Dr. Öztan Yasun&apos;un Kaleminden
-              </h2>
-              <div className="mx-auto accent-line" />
-              <p className="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
-                Diş sağlığınız, implant teknolojileri ve gülüş estetiği hakkında doğru bilinen yanlışlar ve uzman tavsiyeleri.
-              </p>
-            </div>
+      {/* --- 2. BÖLÜM: DOKTOR TANITIMI --- */}
+      <section className="py-20 bg-[var(--color-brand-gray)] relative overflow-hidden">
+         <div className="container-custom">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+               
+               <div className="relative order-2 lg:order-1">
+                  <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-white">
+                     <Image 
+                        src="/doctor1.webp" 
+                        alt="Dr. Öztan Yasun" 
+                        fill 
+                        className="object-cover"
+                     />
+                  </div>
+                  <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur px-6 py-4 rounded-xl shadow-lg border-l-4 border-[var(--color-brand-gold)]">
+                     <p className="font-heading text-2xl font-bold text-[var(--color-brand-navy)]">15+</p>
+                     <p className="text-xs uppercase tracking-wider text-slate-500 font-bold">Yıllık Tecrübe</p>
+                  </div>
+               </div>
 
-            {latestPosts.length > 0 ? (
-              <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {latestPosts.map((post) => (
-                  <Link
-                    key={post.id}
-                    href={`/blog/${post.slug}`}
-                    className="group block h-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D7C3A3]"
+               <div className="order-1 lg:order-2 space-y-8">
+                  <div>
+                     <span className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--color-brand-gold)] mb-3 block">
+                        Hekimimiz
+                     </span>
+                     <h2 className="font-heading text-3xl md:text-5xl text-[var(--color-brand-navy)] mb-4">
+                        Dr. Öztan Yasun
+                     </h2>
+                     <p className="text-lg text-slate-600 leading-relaxed">
+                        &ldquo;Diş hekimliği sadece bir tedavi değil, kişinin özgüvenini inşa eden bir sanattır. Kliniğimizde her vakaya butik bir yaklaşımla, kendi ailemize uygular gibi özenle yaklaşıyoruz.&rdquo;
+                     </p>
+                  </div>
+
+                  <div className="space-y-4">
+                     <div className="flex items-center gap-3 text-slate-700">
+                        <LuCheck className="w-5 h-5 text-[var(--color-brand-gold)]" />
+                        <span>Hacettepe Üniversitesi Diş Hekimliği Fakültesi Mezunu</span>
+                     </div>
+                     <div className="flex items-center gap-3 text-slate-700">
+                        <LuCheck className="w-5 h-5 text-[var(--color-brand-gold)]" />
+                        <span>İleri İmplant Cerrahisi Uzmanlığı</span>
+                     </div>
+                     <div className="flex items-center gap-3 text-slate-700">
+                        <LuCheck className="w-5 h-5 text-[var(--color-brand-gold)]" />
+                        <span>Dijital Gülüş Tasarımı Sertifikalı Hekim</span>
+                     </div>
+                  </div>
+
+                  <Link 
+                     href="/ekibimiz" 
+                     className="inline-flex px-8 py-3 bg-[var(--color-brand-navy)] text-white rounded-lg font-bold shadow-lg hover:bg-[var(--color-brand-navy-light)] transition-all"
                   >
-                    <article className="flex h-full flex-col overflow-hidden rounded-[28px] border border-slate-100 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(15,23,42,0.15)]">
-                      <div className="relative h-52 w-full overflow-hidden">
-                        <Image
-                          src={post.coverImage || "/hero.webp"}
-                          alt={post.title}
-                          fill
-                          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      </div>
-                      <div className="flex flex-1 flex-col p-6">
-                        <time className="text-xs font-semibold uppercase tracking-[0.35em] text-[#6B5A45]">
-                          {formatBlogDate(post.publishedAt)}
-                        </time>
-                        <h3 className="mt-3 text-xl font-semibold text-slate-900">{post.title}</h3>
-                        <p className="mt-3 flex-1 text-base leading-relaxed text-slate-600 line-clamp-3">{post.summary}</p>
-                        <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#384B70] transition group-hover:gap-3">
-                          Oku
-                          <span aria-hidden="true">→</span>
-                        </span>
-                      </div>
-                    </article>
+                     Hekimimizi Tanıyın
                   </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="mt-12 flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-200 bg-white/70 p-10 text-center">
-                <p className="text-slate-500">Dr. Öztan Yasun&apos;un makaleleri yakında burada yayınlanacak.</p>
-            </div>
-          )}
+               </div>
 
-            <div className="mt-12 text-center">
-              <Link
-                href="/blog"
-                className="inline-flex items-center justify-center rounded-full bg-[#384B70] px-8 py-3.5 text-base font-semibold text-white shadow-[0_20px_45px_rgba(56,75,112,0.3)] transition hover:bg-[#2F3D61]"
-              >
-                Tüm Yazılar
-              </Link>
             </div>
-          </div>
+         </div>
       </section>
 
+      {/* --- 3. BÖLÜM: HASTA YORUMLARI --- */}
       <PatientTestimonials />
 
-      {/* EKİP - DR ODAKLI */}
-      <section className="bg-gradient-to-b from-white via-[#F6F7FB] to-white py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-14 text-center">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-[#384B70]">Kadro</p>
-              <div className="space-y-4">
-                <h2 className="font-heading text-3xl tracking-tight text-slate-900 md:text-4xl">
-                  Dr. Öztan Yasun ve Ekibi
-                </h2>
-                <div className="mx-auto accent-line" />
-              </div>
-              <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-slate-600">
-                Tecrübe ve dinamizmin birleştiği uzman kadromuzla tanışın.
-              </p>
+      {/* --- 4. BÖLÜM: BLOG ÖZETİ --- */}
+      <section className="section-spacing bg-white">
+          <div className="container-custom">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+               <div>
+                  <span className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--color-brand-gold)] mb-3 block">
+                    Akademik Bakış
+                  </span>
+                  <h2 className="font-heading text-3xl md:text-4xl text-[var(--color-brand-navy)]">
+                    Hekimden Tavsiyeler
+                  </h2>
+               </div>
+               <Link href="/blog" className="text-[var(--color-brand-navy)] font-bold border-b border-transparent hover:border-[var(--color-brand-navy)] transition-all">
+                  Tüm Yazıları Gör
+               </Link>
             </div>
-            <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 justify-center">
-              {featuredTeam.map((doctor) => (
-                <div
-                  key={doctor.name}
-                  className="flex flex-col items-center rounded-2xl border border-slate-100 bg-white/95 p-8 text-center shadow-[0_20px_45px_rgba(15,23,42,0.08)]"
-                >
-                  <img
-                    src={doctor.photo}
-                    alt={doctor.name}
-                    className="mb-5 h-24 w-24 rounded-full object-cover ring-4 ring-white shadow-[0_10px_25px_rgba(15,23,42,0.15)]"
-                    loading="lazy"
-                  />
-                  <h3 className="text-lg font-semibold text-slate-900">{doctor.name}</h3>
-                  <p className="mb-3 text-xs uppercase tracking-[0.3em] text-slate-400">{doctor.title}</p>
-                  <p className="text-sm leading-relaxed text-slate-600">{doctor.summary}</p>
-                </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {latestPosts.map((post) => (
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:border-[var(--color-brand-gold)]/50 transition-all duration-300">
+                  <div className="relative h-56 overflow-hidden">
+                    <Image
+                      src={post.coverImage || "/hero.webp"}
+                      alt={post.title}
+                      fill
+                      className="object-cover transition duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="p-8">
+                    <div className="flex items-center gap-2 text-xs font-bold text-[var(--color-brand-gold)] uppercase tracking-wider mb-3">
+                       <LuCalendar className="w-3 h-3" />
+                       {formatDate(post.publishedAt)}
+                    </div>
+                    <h3 className="text-xl font-bold text-[var(--color-brand-navy)] leading-snug line-clamp-2 group-hover:text-[var(--color-brand-navy-light)] transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="mt-3 text-slate-600 line-clamp-3 text-sm leading-relaxed">
+                      {post.summary}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--color-brand-navy)]">
+                       Devamını Oku <LuArrowRight className="w-4 h-4" />
+                    </span>
+                  </div>
+                </Link>
               ))}
             </div>
-            <div className="mt-12 text-center">
-              <Link
-                href="/ekibimiz"
-                className="inline-flex items-center justify-center rounded-full border border-[#384B70] bg-[#384B70] px-7 py-3 font-semibold text-white transition hover:bg-opacity-90"
-              >
-                Ekibimizi Tanıyın
-              </Link>
-            </div>
           </div>
       </section>
 
-      <section className="bg-gradient-to-b from-[#F8FAFC] via-white to-[#F7F7F9] py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
+      {/* --- 5. BÖLÜM: İLETİŞİM & FORM --- */}
+      <section className="py-20 bg-[var(--color-brand-navy)] text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-[var(--color-brand-navy)] to-[var(--color-brand-navy)]"></div>
+          
+          <div className="container-custom relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               
-              {/* HARİTA */}
-              <div className="relative flex h-full min-h-[360px] w-full overflow-hidden rounded-[32px] border border-neutral-200 bg-white shadow-[0_25px_80px_rgba(15,23,42,0.08)] md:order-1">
-                <iframe
-                  title="Dr. Öztan Yasun Klinik Konumu"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3064.452211571933!2d32.852980676336005!3d39.920915483507386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34f836b4cd7b7%3A0xbc8a761c0a0ce873!2sAtat%C3%BCrk%20Bulvar%C4%B1%2C%20K%C4%B1z%C4%B1lay%2C%20%C3%87ankaya%2FAnkara!5e0!3m2!1str!2str!4v1714944912345!5m2!1str!2str"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0 h-full w-full"
-                />
+              <div>
+                <h2 className="font-heading text-3xl md:text-5xl mb-6 leading-tight">
+                   Gülüşünüzü Ertelemeyin,<br/>
+                   <span className="text-[var(--color-brand-gold)]">Bugün Harekete Geçin.</span>
+                </h2>
+                <p className="text-blue-100 text-lg mb-8 leading-relaxed">
+                  Ankara&apos;nın merkezinde, en ileri teknoloji ve uzman dokunuşlarla ağrısız bir diş hekimliği deneyimi sizi bekliyor.
+                </p>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/5">
+                     <div className="w-10 h-10 rounded-full bg-white text-[var(--color-brand-navy)] flex items-center justify-center shrink-0">📍</div>
+                     <div>
+                        <p className="text-xs text-[var(--color-brand-gold)] font-bold uppercase tracking-wider">Adres</p>
+                        <p className="font-medium">Meşrutiyet Mah. Atatürk Bulvarı, Çankaya / Ankara</p>
+                     </div>
+                  </div>
+                  <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/5">
+                     <div className="w-10 h-10 rounded-full bg-white text-[var(--color-brand-navy)] flex items-center justify-center shrink-0">📞</div>
+                     <div>
+                        <p className="text-xs text-[var(--color-brand-gold)] font-bold uppercase tracking-wider">Hemen Arayın</p>
+                        <p className="font-medium">0312 000 00 00</p>
+                     </div>
+                  </div>
+                </div>
               </div>
 
-              {/* İLETİŞİM FORMU */}
-              <div 
-              id="appointment-form"
-              className="flex h-full flex-col rounded-[32px] border border-neutral-200 bg-white p-8 shadow-[0_25px_80px_rgba(15,23,42,0.08)] md:order-2">
-                <h3 className="text-2xl font-semibold text-neutral-900">Randevu Planlayın</h3>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-600">
-                  Dr. Öztan Yasun ile ön görüşme veya muayene randevusu almak için formu doldurun.
-                </p>
-                <AppointmentForm withFrame wrapperClassName="mt-6" />
+              <div className="bg-white rounded-3xl p-8 text-slate-800 shadow-2xl shadow-black/20">
+                 <h3 className="text-xl font-bold text-[var(--color-brand-navy)] mb-2">Hızlı Randevu Oluştur</h3>
+                 <p className="text-sm text-slate-500 mb-6">Formu doldurun, asistanımız 30 dk içinde size dönüş yapsın.</p>
+                 <AppointmentForm />
               </div>
 
             </div>
           </div>
       </section>
 
-      <div className="mx-auto mt-10 w-full max-w-6xl border-t border-slate-200" />
     </main>
   );
 };

@@ -2,8 +2,10 @@
 
 import { FormEvent, useState } from "react";
 
+// Regex
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^[0-9+ ]+$/;
+
 const initialFormState = {
   name: "",
   email: "",
@@ -17,15 +19,15 @@ type FieldErrors = Partial<Record<FieldName, string>>;
 
 type AppointmentFormProps = {
   wrapperClassName?: string;
-  withFrame?: boolean;
 };
 
+// YENİ INPUT STİLİ: Daha kurumsal, keskin hatlar, focus olunca Lacivert border.
 const baseInputClasses =
-  "w-full rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 text-base text-slate-900 shadow-[inset_0_1px_0_rgba(15,23,42,0.08)] transition-all duration-200 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:shadow-[0_20px_40px_rgba(15,23,42,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2";
+  "w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-3.5 text-base text-[var(--color-brand-navy)] placeholder:text-slate-400 transition-all duration-200 focus:border-[var(--color-brand-navy)] focus:bg-white focus:ring-1 focus:ring-[var(--color-brand-navy)] outline-none";
 
 const sanitizeInput = (value: string) => value.replace(/[<>]/g, "");
 
-const AppointmentForm = ({ wrapperClassName, withFrame = true }: AppointmentFormProps) => {
+const AppointmentForm = ({ wrapperClassName }: AppointmentFormProps) => {
   const [formData, setFormData] = useState(initialFormState);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<SubmissionStatus>("idle");
@@ -36,12 +38,8 @@ const AppointmentForm = ({ wrapperClassName, withFrame = true }: AppointmentForm
     (field: FieldName) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const value = sanitizeInput(event.target.value);
       setFormData((previous) => ({ ...previous, [field]: value }));
-      if (fieldErrors[field]) {
-        setFieldErrors((previous) => ({ ...previous, [field]: "" }));
-      }
-      if (status === "error") {
-        setServerMessage("");
-      }
+      if (fieldErrors[field]) setFieldErrors((previous) => ({ ...previous, [field]: "" }));
+      if (status === "error") setServerMessage("");
     };
 
   const validateForm = () => {
@@ -50,17 +48,10 @@ const AppointmentForm = ({ wrapperClassName, withFrame = true }: AppointmentForm
     const trimmedPhone = formData.phone.trim();
     const trimmedEmail = formData.email.trim();
 
-    if (!trimmedName) {
-      errors.name = "Lütfen adınızı girin.";
-    }
-    if (!trimmedPhone) {
-      errors.phone = "Telefon numarası zorunludur.";
-    } else if (!phoneRegex.test(trimmedPhone)) {
-      errors.phone = "Lütfen geçerli bir telefon numarası girin.";
-    }
-    if (trimmedEmail && !emailRegex.test(trimmedEmail)) {
-      errors.email = "Lütfen geçerli bir e-posta adresi girin.";
-    }
+    if (!trimmedName) errors.name = "Adınızı giriniz.";
+    if (!trimmedPhone) errors.phone = "Telefon numarası zorunludur.";
+    else if (!phoneRegex.test(trimmedPhone)) errors.phone = "Geçerli bir numara giriniz.";
+    if (trimmedEmail && !emailRegex.test(trimmedEmail)) errors.email = "Geçerli bir e-posta giriniz.";
 
     setFieldErrors(errors);
     return {
@@ -72,24 +63,20 @@ const AppointmentForm = ({ wrapperClassName, withFrame = true }: AppointmentForm
     };
   };
 
-  const resetForm = (resetStatus = true) => {
+  const resetForm = () => {
     setFormData(initialFormState);
     setFieldErrors({});
     setServerMessage("");
-    if (resetStatus) {
-      setStatus("idle");
-    }
+    setStatus("idle");
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (status === "loading") return;
-
     setServerMessage("");
 
-    if (botField) {
+    if (botField) { // Honeypot trap
       setStatus("error");
-      setServerMessage("Gönderim gerçekleştirilemedi. Lütfen tekrar deneyin.");
       return;
     }
 
@@ -97,7 +84,7 @@ const AppointmentForm = ({ wrapperClassName, withFrame = true }: AppointmentForm
 
     if (!isValid) {
       setStatus("error");
-      setServerMessage("Lütfen bilgilerinizi kontrol edin.");
+      setServerMessage("Lütfen işaretli alanları kontrol ediniz.");
       return;
     }
 
@@ -106,9 +93,7 @@ const AppointmentForm = ({ wrapperClassName, withFrame = true }: AppointmentForm
     try {
       const response = await fetch("/api/send-appointment", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: trimmedName,
           email: trimmedEmail,
@@ -121,134 +106,104 @@ const AppointmentForm = ({ wrapperClassName, withFrame = true }: AppointmentForm
 
       if (response.ok && data.success) {
         setStatus("success");
-        setServerMessage("Teşekkürler! Randevu talebiniz bize ulaştı.");
-        resetForm(false);
+        setServerMessage("Randevu talebiniz başarıyla alındı.");
       } else {
         setStatus("error");
-        setServerMessage(
-          typeof data?.error === "string"
-            ? data.error
-            : "Sunucuya bağlanırken bir sorun oluştu. Lütfen tekrar deneyin.",
-        );
+        setServerMessage(data?.error || "Bir hata oluştu.");
       }
     } catch {
       setStatus("error");
-      setServerMessage("Bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.");
+      setServerMessage("Bağlantı hatası. Lütfen tekrar deneyin.");
     }
   };
 
-  const showSuccessState = status === "success";
-  const serverMessageColor =
-    status === "success" ? "text-green-600" : status === "error" ? "text-red-600" : "text-slate-600";
-  const containerClasses = withFrame
-    ? `rounded-[32px] border border-white/60 bg-white/90 p-5 shadow-[0_35px_120px_rgba(15,23,42,0.18)] backdrop-blur-lg md:p-8 ${wrapperClassName ?? ""}`
-    : wrapperClassName ?? "";
-
-  return (
-    <div className={containerClasses}>
-      {showSuccessState ? (
-        <div
-          className="space-y-6 text-center animate-success-alert"
-          role="status"
-          aria-live="polite"
-        >
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-700">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="h-8 w-8"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-2xl font-semibold text-slate-900">Talebiniz Alındı</h3>
-            <p className="text-base text-slate-600">
-              Ekibimiz en kısa sürede sizinle iletişime geçecek. İsterseniz WhatsApp üzerinden de yazabilirsiniz.
-            </p>
-          </div>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full border border-[#384B70] px-6 py-3 text-sm font-semibold text-[#384B70] transition hover:bg-[#F8F4EF]"
-            onClick={() => resetForm()}
-          >
-            Başka Talep Gönder
-          </button>
+  // SUCCESS STATE (BAŞARILI GÖNDERİM)
+  if (status === "success") {
+    return (
+      <div className="flex flex-col items-center justify-center text-center py-8 animate-fade-up">
+        <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-green-600 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
         </div>
-      ) : (
-        <form
-          className="space-y-4"
-          onSubmit={handleSubmit}
+        <h3 className="text-xl font-heading font-bold text-[var(--color-brand-navy)] mb-2">Talebiniz Alındı</h3>
+        <p className="text-slate-600 mb-6 text-sm">
+          Ekibimiz en kısa sürede {formData.phone} numarasından size dönüş yapacaktır.
+        </p>
+        <button
+          onClick={resetForm}
+          className="text-sm font-bold text-[var(--color-brand-gold)] hover:underline"
         >
+          Yeni Form Gönder
+        </button>
+      </div>
+    );
+  }
+
+  // FORM RENDER
+  return (
+    <form className={`space-y-4 ${wrapperClassName || ""}`} onSubmit={handleSubmit}>
+      {/* Honeypot */}
+      <input type="text" name="company" className="hidden" value={botField} onChange={(e) => setBotField(e.target.value)} />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
           <input
             type="text"
-            name="company"
-            tabIndex={-1}
-            autoComplete="off"
-            className="hidden"
-            value={botField}
-            onChange={(event) => setBotField(event.target.value)}
+            placeholder="Adınız Soyadınız *"
+            className={`${baseInputClasses} ${fieldErrors.name ? "border-red-500 bg-red-50" : ""}`}
+            value={formData.name}
+            onChange={handleFieldChange("name")}
           />
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <input
-                type="text"
-                placeholder="Adınız Soyadınız"
-                className={baseInputClasses}
-                value={formData.name}
-                onChange={handleFieldChange("name")}
-              />
-              {fieldErrors.name ? <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p> : null}
-            </div>
-            <div>
-              <input
-                type="email"
-                placeholder="E-posta Adresiniz"
-                className={baseInputClasses}
-                value={formData.email}
-                onChange={handleFieldChange("email")}
-              />
-              {fieldErrors.email ? <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p> : null}
-            </div>
-          </div>
-          <div>
-            <input
-              type="tel"
-              placeholder="Telefon Numaranız"
-              className={baseInputClasses}
-              value={formData.phone}
-              onChange={handleFieldChange("phone")}
-            />
-            {fieldErrors.phone ? <p className="mt-1 text-xs text-red-600">{fieldErrors.phone}</p> : null}
-          </div>
-          <div>
-            <textarea
-              rows={4}
-              placeholder="Mesajınız"
-              className={baseInputClasses}
-              value={formData.message}
-              onChange={handleFieldChange("message")}
-            />
-          </div>
-          <button
-            type="submit"
-            className="inline-flex w-full items-center justify-center rounded-full border border-[#384B70] bg-[#384B70] px-6 py-3 text-sm font-semibold text-white transition hover:bg-opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D7C3A3]"
-            disabled={status === "loading"}
-          >
-            {status === "loading" ? "Gönderiliyor..." : "Gönder"}
-          </button>
-          {serverMessage ? <p className={`text-sm ${serverMessageColor}`}>{serverMessage}</p> : null}
-        </form>
+          {fieldErrors.name && <span className="text-xs text-red-500 mt-1 block">{fieldErrors.name}</span>}
+        </div>
+        <div>
+           <input
+            type="tel"
+            placeholder="Telefon Numaranız *"
+            className={`${baseInputClasses} ${fieldErrors.phone ? "border-red-500 bg-red-50" : ""}`}
+            value={formData.phone}
+            onChange={handleFieldChange("phone")}
+          />
+          {fieldErrors.phone && <span className="text-xs text-red-500 mt-1 block">{fieldErrors.phone}</span>}
+        </div>
+      </div>
+
+      <div>
+        <input
+          type="email"
+          placeholder="E-posta Adresiniz"
+          className={baseInputClasses}
+          value={formData.email}
+          onChange={handleFieldChange("email")}
+        />
+        {fieldErrors.email && <span className="text-xs text-red-500 mt-1 block">{fieldErrors.email}</span>}
+      </div>
+
+      <div>
+        <textarea
+          rows={4}
+          placeholder="Şikayetiniz veya Talebiniz..."
+          className={baseInputClasses}
+          value={formData.message}
+          onChange={handleFieldChange("message")}
+        />
+      </div>
+
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="w-full rounded-lg bg-[var(--color-brand-gold)] py-4 text-white font-bold text-sm uppercase tracking-wide shadow-lg shadow-orange-100 transition-all hover:bg-[var(--color-brand-gold-hover)] hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+      >
+        {status === "loading" ? "Gönderiliyor..." : "Randevu Talebi Oluştur"}
+      </button>
+
+      {serverMessage && status === "error" && (
+        <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-red-600 text-sm text-center">
+          {serverMessage}
+        </div>
       )}
-    </div>
+    </form>
   );
 };
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google"; // Next.js'in kendi font yükleyicisi
 import "./globals.css";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
@@ -6,13 +7,27 @@ import { Suspense } from "react";
 import WhatsAppButton from "./components/ui/WhatsAppButton";
 import ChatWidget from "./components/ui/ChatWidget";
 
-export const dynamic = "force-dynamic";
+// FONT AYARLARI (PREMIUM GÖRÜNÜM İÇİN KRİTİK)
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
-  title: "Dr. Öztan Yasun | Estetik Diş Hekimliği - Ankara",
-  description:
-    "Dr. Öztan Yasun'un estetik diş hekimliği ve implantoloji yaklaşımıyla butik, konforlu ve teknoloji odaklı tedavi deneyimi.",
+  title: "Dr. Öztan Yasun | Estetik Diş Hekimi - Ankara",
+  description: "Ankara estetik diş hekimliği, implant ve gülüş tasarımı. Dr. Öztan Yasun ile kişiye özel, dijital destekli diş tedavileri.",
 };
+
+export const dynamic = "force-dynamic";
 
 export default function RootLayout({
   children,
@@ -20,40 +35,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Playfair+Display:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="antialiased bg-white text-slate-900">
-        {/* 2. Header'ı Suspense içine al */}
+    <html lang="tr" className={`scroll-smooth ${inter.variable} ${playfair.variable}`}>
+      <body className="antialiased bg-white text-slate-900 font-sans">
+        
         <Suspense fallback={<div className="h-20 bg-white" />}>
           <Header />
         </Suspense>
 
         {children}
 
-        {/* 3. Footer'ı Suspense içine al */}
-        <Suspense fallback={<div className="h-20 bg-[#0F172A]" />}>
+        <Suspense fallback={<div className="h-20 bg-[var(--color-brand-navy)]" />}>
           <Footer />
         </Suspense>
 
-        {/* 4. Butonu da garanti olsun diye al */}
+        {/* Floating Elements */}
+        <div className="fixed bottom-6 right-6 z-[9990] flex flex-col gap-4 pointer-events-none">
+           <div className="pointer-events-auto">
+             <Suspense fallback={null}>
+               <WhatsAppButton />
+             </Suspense>
+           </div>
+        </div>
+        
         <Suspense fallback={null}>
-          <WhatsAppButton />
+            <ChatWidget />
         </Suspense>
 
-        <Suspense fallback={null}>
-          <ChatWidget />
-        </Suspense>
       </body>
     </html>
   );

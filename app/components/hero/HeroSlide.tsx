@@ -12,67 +12,48 @@ type HeroSlideProps = {
 const HeroSlide = ({ slide, isActive }: HeroSlideProps) => {
   return (
     <div
-      className={`absolute inset-0 px-4 py-8 sm:px-10 lg:px-16 transition-all duration-700 
-      ${isActive ? "opacity-100 translate-x-0 z-20" : "pointer-events-none translate-x-6 opacity-0 z-10"}`}
+      className={`absolute inset-0 transition-all duration-1000 ease-in-out
+      ${isActive ? "opacity-100 z-20" : "opacity-0 z-10 pointer-events-none"}`}
     >
-      {/* LAYOUT MANTIĞI:
-         - Mobile: flex-col (Dikey sıralama: Resim -> Yazı)
-         - Desktop (lg): grid (Yatay sıralama: Yazı -> Resim)
-      */}
-      <div className="flex flex-col h-full lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 justify-center">
+      {/* Container-Custom ile hizayı sabitledik */}
+      <div className="container-custom h-full flex flex-col-reverse lg:flex-row items-center justify-center gap-10 lg:gap-20 py-12 lg:py-0">
         
-        {/* --- MOBİL İÇİN GÖRSEL (Sadece Mobilde Görünür) --- */}
-        <div className="relative w-full h-[260px] sm:h-[320px] mb-6 flex-shrink-0 lg:hidden block">
-            <div className="relative h-full w-full overflow-hidden rounded-[24px] border border-white/60 bg-white/50 p-2 shadow-lg">
-                <Image
-                  src={slide.image}
-                  alt={slide.title}
-                  fill
-                  className="rounded-[18px] object-cover"
-                  priority={isActive}
-                  sizes="100vw"
-                />
-            </div>
-        </div>
-
-        {/* --- METİN ALANI --- */}
-        <div className="relative z-10 flex flex-col justify-center gap-4 sm:gap-6 text-center lg:text-left">
-          <div>
-            <span className="inline-flex items-center justify-center rounded-full bg-white/80 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#384B70] backdrop-blur-sm shadow-sm">
-              {slide.label}
-            </span>
-          </div>
+        {/* --- SOL: METİN ALANI --- */}
+        <div className={`flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 max-w-2xl transition-all duration-1000 delay-300 ${isActive ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
           
-          <h1 className="font-heading text-[1.75rem] leading-tight text-slate-900 sm:text-4xl lg:text-5xl xl:text-[3.5rem]">
+          <span className="inline-block px-3 py-1 bg-blue-50 text-[var(--color-brand-navy)] text-xs font-bold tracking-[0.2em] uppercase rounded-md border border-blue-100">
+            {slide.label}
+          </span>
+          
+          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-[var(--color-brand-navy)] leading-[1.1]">
             {slide.title}
           </h1>
           
-          <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-600 sm:text-lg lg:mx-0">
+          <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
             {slide.subtitle}
           </p>
 
-          <div className="mt-2 flex justify-center lg:justify-start pb-4 lg:pb-0">
-            <HeroButtons
-              primary={slide.ctaPrimary}
-              secondary={slide.ctaSecondary}
-            />
-          </div>
+          <HeroButtons
+            primary={slide.ctaPrimary}
+            secondary={slide.ctaSecondary}
+          />
         </div>
 
-        {/* --- DESKTOP İÇİN GÖRSEL (Sadece Desktopta Görünür - Eski Halini Koruduk) --- */}
-        <div className="relative h-full w-full hidden lg:block">
-          <div className="absolute inset-0 flex items-center justify-center py-8">
-             <div className="relative h-full w-full overflow-hidden rounded-[32px] border border-white/60 bg-white/50 p-3 shadow-[0_20px_50px_rgba(15,23,42,0.1)]">
-                <Image
-                  src={slide.image}
-                  alt={slide.title}
-                  fill
-                  className="rounded-[24px] object-cover"
-                  priority={isActive}
-                  sizes="50vw"
-                />
-             </div>
-          </div>
+        {/* --- SAĞ: GÖRSEL ALANI --- */}
+        <div className={`relative w-full max-w-[500px] lg:max-w-[600px] aspect-square lg:aspect-[4/3] transition-all duration-1000 delay-100 ${isActive ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}>
+           {/* Floating etkisi için hafif shadow ve border-radius */}
+           <div className="relative w-full h-full overflow-hidden rounded-[2rem] shadow-2xl shadow-blue-900/10">
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                className="object-cover"
+                priority={isActive}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              {/* Resim üzerine hafif gradient overlay - metin okunabilirliği için değil estetik için */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-brand-navy)]/10 to-transparent pointer-events-none" />
+           </div>
         </div>
 
       </div>

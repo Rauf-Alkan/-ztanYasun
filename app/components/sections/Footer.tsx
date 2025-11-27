@@ -1,71 +1,82 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 const footerServices = [
   { label: "İmplant Tedavisi", href: "/hizmetler/implant" },
   { label: "Gülüş Tasarımı", href: "/hizmetler/gulus-tasarimi" },
   { label: "Ortodonti (Şeffaf Plak)", href: "/hizmetler/ortodonti" },
-  { label: "Zirkonyum / Porselen Kaplama", href: "/hizmetler/zirkonyum-kaplama" },
+  { label: "Zirkonyum Kaplama", href: "/hizmetler/zirkonyum-kaplama" },
   { label: "Diş Beyazlatma", href: "/hizmetler/dis-beyazlatma" },
-  { label: "Dolgu & Kanal Tedavisi", href: "/hizmetler/dolgu-kanal" },
+  { label: "Kanal Tedavisi", href: "/hizmetler/dolgu-kanal" },
 ];
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const clinicFullName = "Dr. Öztan Yasun Kliniği";
-
   return (
-    <footer className="bg-[#F8F4EF] py-16 md:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_1fr_1fr]">
-          <div>
-            <div className="flex items-center gap-3">
-              <img
-                src="/logo.png"
-                alt={clinicFullName}
-                className="h-10 w-auto opacity-95"
-              />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#384B70]">{clinicFullName}</p>
+    // DEĞİŞİKLİK: Arka planı Kurumsal Lacivert yaptık. Yazılar açık gri.
+    <footer className="bg-[var(--color-brand-navy)] text-slate-300 py-16 md:py-24 border-t border-slate-800">
+      <div className="container-custom">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+          
+          {/* 1. SÜTUN: MARKA & HAKKINDA */}
+          <div className="lg:col-span-2 space-y-6">
+            <Link href="/" className="inline-block">
+              <div className="flex items-center gap-3">
+                 {/* Logo beyaz zeminli değilse brightness filter ile beyaz yapıyoruz */}
+                 <div className="relative w-12 h-12 bg-white/10 rounded-full p-2 flex items-center justify-center">
+                    <Image
+                        src="/logo.png"
+                        alt="Dr. Öztan Yasun"
+                        width={48}
+                        height={48}
+                        className="object-contain"
+                    />
+                 </div>
+                 <div>
+                    <h2 className="text-2xl font-heading font-bold text-white leading-none">
+                        Dr. Öztan Yasun
+                    </h2>
+                    <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-brand-gold)] mt-1">
+                        Estetik Diş Kliniği
+                    </p>
+                 </div>
               </div>
-            </div>
-            <div className="mt-4 h-1 w-12 rounded-full bg-[#D7C3A3]" />
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-slate-600">
-              Dijital planlama, ileri görüntüleme ve konfor odaklı yaklaşımımızla implanttan ortodontiye uzanan tüm
-              tedavilerde kişiye özel çözümler sunuyoruz. Kliniğimiz, hasta deneyimini şeffaf iletişim ve hızlı dönüşlerle güçlendirir.
+            </Link>
+            
+            <p className="max-w-md text-slate-400 leading-relaxed text-sm">
+              Dijital diş hekimliği ve estetik uygulamalarda güncel teknolojileri kullanarak, 
+              Ankara&apos;nın kalbinde kişiye özel, ağrısız ve konforlu tedavi süreçleri sunuyoruz.
             </p>
-            <div className="mt-6 flex items-center gap-3 text-sm font-semibold text-[#384B70]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                className="h-5 w-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.4"
-                  d="M11.387 2.17 13.5 6l4.174.608a.75.75 0 0 1 .416 1.277l-3.02 2.944.714 4.158a.75.75 0 0 1-1.088.791L10 13.943l-3.716 1.835a.75.75 0 0 1-1.088-.79l.714-4.16-3.02-2.943a.75.75 0 0 1 .416-1.277L7.5 6 9.613 2.17a.75.75 0 0 1 1.774 0Z"
-                />
-              </svg>
-              4.9 / 5 Google değerlendirmesi · 180+ yorum
+
+            {/* Google Rating Badge */}
+            <div className="inline-flex items-center gap-4 bg-white/5 rounded-lg px-4 py-3 border border-white/10">
+                <div className="flex gap-1 text-[var(--color-brand-gold)]">
+                    {[1,2,3,4,5].map(i => (
+                        <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                            <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
+                        </svg>
+                    ))}
+                </div>
+                <div className="text-sm font-medium text-white">
+                    4.9/5 <span className="text-slate-500 text-xs ml-1">(180+ Yorum)</span>
+                </div>
             </div>
           </div>
 
+          {/* 2. SÜTUN: HIZLI LİNKLER */}
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">Hizmetlerimiz</h3>
-            <div className="mt-2 h-0.5 w-10 rounded-full bg-[#D7C3A3]" />
-            <ul className="mt-5 space-y-3 text-sm text-slate-600">
+            <h3 className="text-white font-heading text-lg font-semibold mb-6">Tedaviler</h3>
+            <ul className="space-y-3">
               {footerServices.map((service) => (
                 <li key={service.href}>
                   <Link
                     href={service.href}
-                    className="group inline-flex items-center gap-2 transition hover:text-[#384B70]"
+                    className="text-sm text-slate-400 hover:text-[var(--color-brand-gold)] transition-colors flex items-center gap-2 group"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#384B70] group-hover:scale-125 transition" />
+                    <span className="w-1 h-1 bg-[var(--color-brand-gold)] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"/>
                     {service.label}
                   </Link>
                 </li>
@@ -73,124 +84,52 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* 3. SÜTUN: İLETİŞİM */}
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">İletişim Bilgileri</h3>
-            <div className="mt-2 h-0.5 w-10 rounded-full bg-[#D7C3A3]" />
-            <ul className="mt-5 space-y-4 text-sm text-slate-600">
+            <h3 className="text-white font-heading text-lg font-semibold mb-6">İletişim</h3>
+            <ul className="space-y-4 text-sm text-slate-400">
               <li className="flex items-start gap-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  className="mt-0.5 h-5 w-5 text-[#384B70]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.4"
-                    d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.4"
-                    d="M17 8.5c0 4.418-7 9-7 9s-7-4.582-7-9a7 7 0 1 1 14 0Z"
-                  />
-                </svg>
-                Meşrutiyet Mah. Atatürk Bulvarı No:XX, Kat:X, Çankaya / Ankara
-              </li>
-              <li className="flex items-start gap-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  className="mt-0.5 h-5 w-5 text-[#384B70]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.4"
-                    d="M4 6h12M4 10h12M4 14h12"
-                  />
-                </svg>
-                Kızılay Meydanı&apos;na 2 dakika yürüme mesafesi, [Referans Bina] karşısı.
-              </li>
-              <li className="flex items-start gap-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  className="mt-0.5 h-5 w-5 text-[#384B70]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.4"
-                    d="M3 5h14v10H3z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.4"
-                    d="M3 7.5 10 11l7-3.5"
-                  />
-                </svg>
-                info@droztanyasun.com
+                <span className="text-[var(--color-brand-gold)] text-lg mt-[-2px]">📍</span>
+                <span>
+                  Meşrutiyet Mah. Atatürk Bulvarı<br/>
+                  Çankaya / Ankara
+                </span>
               </li>
               <li className="flex items-center gap-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  className="h-5 w-5 text-[#384B70]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M2.25 5.25c0 7.593 6.157 13.75 13.75 13.75.69 0 1.25-.56 1.25-1.25v-2.514c0-.61-.44-1.13-1.043-1.22l-2.453-.37c-.45-.07-.91.12-1.182.5l-.7.98c-2.093-1.04-3.783-2.73-4.823-4.823l.98-.7c.38-.272.57-.732.5-1.182l-.37-2.453c-.09-.603-.61-1.043-1.22-1.043H3.5c-.69 0-1.25.56-1.25 1.25Z"
-                  />
-                </svg>
-                <a
-                  href="tel:+903120000000"
-                  className="transition hover:text-[#384B70]"
-                >
-                  0312 000 00 00 (Randevu Hattı)
+                <span className="text-[var(--color-brand-gold)] text-lg">📞</span>
+                <a href="tel:+903120000000" className="hover:text-white transition-colors font-medium">
+                  0312 000 00 00
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  stroke="currentColor"
-                  className="h-5 w-5 text-[#384B70]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.4"
-                    d="M10 4.5v5l3.5 2"
-                  />
-                  <circle
-                    cx="10"
-                    cy="10"
-                    r="6"
-                    strokeWidth="1.4"
-                  />
-                </svg>
-                Pzt-Cuma 09:00-19:00 · Cumartesi 09:00-15:00 · Pazar Kapalı
+                <span className="text-[var(--color-brand-gold)] text-lg">✉️</span>
+                <a href="mailto:info@droztanyasun.com" className="hover:text-white transition-colors">
+                  info@droztanyasun.com
+                </a>
+              </li>
+              <li className="pt-4">
+                 <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Çalışma Saatleri</p>
+                 <div className="flex justify-between text-xs">
+                    <span>Pzt - Cmt:</span>
+                    <span className="text-white">09:00 - 19:00</span>
+                 </div>
+                 <div className="flex justify-between text-xs mt-1">
+                    <span>Pazar:</span>
+                    <span className="text-[var(--color-brand-gold)]">Kapalı</span>
+                 </div>
               </li>
             </ul>
           </div>
+
         </div>
 
-        <div className="mt-12 border-t border-slate-200 pt-6 text-center text-sm text-slate-500">
-          © {currentYear} {clinicFullName} — Tüm hakları saklıdır.
+        {/* ALT BAR */}
+        <div className="mt-16 pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-600">
+          <p>© {currentYear} Dr. Öztan Yasun Kliniği. Tüm hakları saklıdır.</p>
+          <div className="flex gap-6">
+            <Link href="#" className="hover:text-white transition-colors">KVKK</Link>
+            <Link href="#" className="hover:text-white transition-colors">Aydınlatma Metni</Link>
+          </div>
         </div>
       </div>
     </footer>

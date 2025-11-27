@@ -3,25 +3,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navLinks = [
   { label: "Ana Sayfa", href: "/" },
   { label: "Hakkımızda", href: "/hakkimizda" },
   { label: "Hizmetler", href: "/hizmetler" },
   { label: "Blog", href: "/blog" },
-  { label: "Ekibimiz", href: "/ekibimiz" },
   { label: "İletişim", href: "/iletisim" },
 ];
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
 
-  const clinicName = "Dr. Öztan Yasun";
+  // Scroll efekti: Aşağı kaydırınca navbar biraz küçülür ve gölgesi artar
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isLinkActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -30,68 +37,116 @@ const Header = () => {
   };
 
   return (
-    // DÜZELTME 1: z-30 yerine z-[999] yapıldı. Artık Slider'ın (z-40) altında kalmayacak.
-    <header className="sticky top-0 z-[999] border-b border-slate-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4 sm:px-6 lg:px-8 relative">
-        <Link
-          href="/"
-          className="flex flex-shrink-0 items-center gap-3 text-xl font-semibold text-[#384B70]"
-        >
-          <Image
-            src="/logo.png"
-            alt={clinicName}
-            width={40}
-            height={40}
-            className="h-10 w-10 object-contain opacity-95"
-            priority
-          />
-          <span className="font-heading tracking-tight">{clinicName}</span>
+    <header 
+      className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-300 border-b border-gray-100
+      ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-2" : "bg-white py-4"}`}
+    >
+      {/* Container Custom ile tam hizalama sağlandı */}
+      <div className="container-custom flex items-center justify-between">
+        
+        {/* LOGO ALANI */}
+        <Link href="/" className="flex items-center gap-3 group">
+          {/* Logo boyutlandırması optimize edildi */}
+          <div className="relative w-10 h-10 overflow-hidden">
+             <Image
+              src="/logo.png"
+              alt="Dr. Öztan Yasun"
+              width={80}
+              height={80}
+              className="object-contain w-full h-full"
+              priority
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-heading text-lg font-bold text-[var(--color-brand-navy)] leading-tight">
+              Dr. Öztan Yasun
+            </span>
+            <span className="text-xs text-slate-500 font-medium tracking-wider">
+              ESTETİK DİŞ HEKİMLİĞİ
+            </span>
+          </div>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="ml-auto hidden flex-1 items-center justify-end gap-8 text-sm font-semibold text-slate-600 lg:flex">
+        {/* DESKTOP MENU */}
+        <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`group relative inline-flex flex-col items-center gap-1 px-1 py-1 text-sm transition ${isLinkActive(link.href) ? "text-[#384B70]" : ""}`}
+              className={`relative text-sm font-semibold transition-colors duration-200 
+              ${isLinkActive(link.href) 
+                ? "text-[var(--color-brand-navy)]" 
+                : "text-slate-600 hover:text-[var(--color-brand-navy)]"
+              }`}
             >
-              <span className="transition duration-200 group-hover:-translate-y-0.5">{link.label}</span>
-              <span
-                className={`h-0.5 w-full origin-left rounded-full bg-[#384B70] transition-transform duration-200 ${isLinkActive(link.href) ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
-              />
+              {link.label}
+              {/* Aktif Link Alt Çizgisi */}
+              {isLinkActive(link.href) && (
+                <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-[var(--color-brand-gold)] rounded-full" />
+              )}
             </Link>
           ))}
         </nav>
 
-        {/* Mobil Menü Butonu */}
-        {/* DÜZELTME 2: relative ve z-[1000] eklendi. Garanti tıklanır. */}
+        {/* SAĞ TARAF: CTA BUTTON (SATIŞ KAPATICI) */}
+        <div className="hidden lg:flex items-center gap-4">
+          <Link
+            href="/iletisim"
+            className="hidden lg:inline-flex items-center justify-center px-6 py-2.5 
+            bg-[var(--color-brand-navy)] text-white text-sm font-semibold rounded-lg 
+            transition-all duration-300 hover:bg-[var(--color-brand-navy-light)] 
+            hover:shadow-lg hover:-translate-y-0.5 ring-offset-2 focus:ring-2 ring-[var(--color-brand-navy)]"
+          >
+            Randevu Al
+          </Link>
+        </div>
+
+        {/* MOBİL MENÜ BUTONU */}
         <button
-          type="button"
-          className="ml-auto inline-flex flex-col items-center justify-center gap-1 rounded-full border border-slate-200 p-2 text-slate-700 transition hover:border-[#D7C3A3] hover:text-[#384B70] lg:hidden relative z-[1000]"
-          aria-label="Menüyü Aç"
-          aria-expanded={menuOpen}
           onClick={toggleMenu}
+          className="lg:hidden p-2 text-[var(--color-brand-navy)] hover:bg-slate-50 rounded-md transition-colors"
+          aria-label="Menüyü Aç"
         >
-          <span className={`block h-0.5 w-5 rounded bg-current transition-transform ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`} />
-          <span className={`block h-0.5 w-5 rounded bg-current transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block h-0.5 w-5 rounded bg-current transition-transform ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`} />
+          {menuOpen ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
         </button>
       </div>
 
+      {/* MOBİL MENÜ DROPDOWN */}
       {menuOpen && (
-        <div className="lg:hidden border-t border-slate-100 bg-white animate-in slide-in-from-top-5 duration-200">
-          <nav className="flex flex-col px-4 pt-3 pb-6 text-base text-slate-700 space-y-2">
+        <div className="absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-xl lg:hidden animate-fade-up">
+          <nav className="flex flex-col p-4 space-y-2 container-custom">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-lg px-4 py-3 transition hover:bg-[#F3EBDF] hover:text-[#384B70] font-medium ${isLinkActive(link.href) ? "bg-[#F3EBDF] text-[#384B70]" : ""}`}
                 onClick={closeMenu}
+                className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors
+                ${isLinkActive(link.href)
+                  ? "bg-[var(--color-brand-gray)] text-[var(--color-brand-navy)]"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-[var(--color-brand-navy)]"
+                }`}
               >
                 {link.label}
               </Link>
             ))}
+            <div className="pt-4 mt-2 border-t border-gray-100">
+              <Link
+                href="/iletisim"
+                onClick={closeMenu}
+                className="flex items-center justify-center w-full px-4 py-3 
+                bg-[var(--color-brand-navy)] text-white font-semibold rounded-lg text-sm"
+              >
+                Hemen Randevu Al
+              </Link>
+            </div>
           </nav>
         </div>
       )}
