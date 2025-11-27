@@ -100,7 +100,7 @@ const Services = () => {
         <div className="text-center space-y-4 md:space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#384B70]">Tedavi Protokolleri</p>
           <h2 className="font-heading text-3xl tracking-tight text-slate-900 md:text-4xl md:leading-relaxed">
-            Dr. Öztan Yasun'un uyguladığı başlıca tedaviler
+            Dr. Öztan Yasun&apos;un uyguladığı başlıca tedaviler
           </h2>
           <h3 className="text-xl font-semibold text-slate-800 leading-relaxed">
             Dijital planlama, akademik tecrübe ve hasta konforu odaklı yaklaşımlar.

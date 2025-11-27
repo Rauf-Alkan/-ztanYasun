@@ -115,52 +115,54 @@ const PatientTestimonials = () => {
           <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[#384B70]">DEĞİŞİM HİKAYELERİ</p>
           <h2 className="mt-3 font-heading text-3xl tracking-tight text-slate-900 md:text-4xl">Dr. Öztan Yasun hakkında ne dediler?</h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
-            Dr. Öztan Yasun'un planladığı tedaviler sonrası deneyimlerini paylaşan hastalarımızdan seçilmiş yorumlar.
+            Dr. Öztan Yasun&apos;un planladığı tedaviler sonrası deneyimlerini paylaşan hastalarımızdan seçilmiş yorumlar.
           </p>
         </div>
 
         <div className="relative mt-12">
-          <button
-            type="button"
-            aria-label="Önceki yorum"
-            className="pointer-events-auto absolute left-0 top-1/2 z-20 -translate-y-1/2 rounded-full border border-slate-200 bg-white p-3 shadow-lg transition hover:border-[#384B70] hover:text-[#384B70] sm:-left-2"
-            onClick={handlePrev}
-          >
-            <svg
-              viewBox="0 0 20 20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              className="h-5 w-5"
+          <div className="pointer-events-none absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-1 sm:px-4">
+            <button
+              type="button"
+              aria-label="Önceki yorum"
+              className="pointer-events-auto rounded-full border border-slate-200 bg-white p-3 shadow-lg transition hover:border-[#384B70] hover:text-[#384B70]"
+              onClick={handlePrev}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m12 5-4 5 4 5"
-              />
-            </svg>
-          </button>
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                className="h-5 w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m12 5-4 5 4 5"
+                />
+              </svg>
+            </button>
 
-          <button
-            type="button"
-            aria-label="Sonraki yorum"
-            className="pointer-events-auto absolute right-0 top-1/2 z-20 -translate-y-1/2 rounded-full border border-slate-200 bg-white p-3 shadow-lg transition hover:border-[#384B70] hover:text-[#384B70] sm:-right-2"
-            onClick={handleNext}
-          >
-            <svg
-              viewBox="0 0 20 20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              className="h-5 w-5"
+            <button
+              type="button"
+              aria-label="Sonraki yorum"
+              className="pointer-events-auto rounded-full border border-slate-200 bg-white p-3 shadow-lg transition hover:border-[#384B70] hover:text-[#384B70]"
+              onClick={handleNext}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m8 5 4 5-4 5"
-              />
-            </svg>
-          </button>
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                className="h-5 w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m8 5 4 5-4 5"
+                />
+              </svg>
+            </button>
+          </div>
 
           <div
             className="overflow-hidden"

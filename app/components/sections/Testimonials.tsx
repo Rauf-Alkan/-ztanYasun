@@ -35,12 +35,12 @@ const Testimonials = () => {
           </p>
           <div className="space-y-4">
             <h2 className="font-heading text-3xl tracking-tight text-slate-900 md:text-4xl">
-            Dr. Öztan Yasun'a güvenen hastaların gülüşleri
+            Dr. Öztan Yasun&apos;a güvenen hastaların gülüşleri
             </h2>
             <div className="mx-auto accent-line" />
           </div>
           <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-relaxed text-slate-600">
-            Dr. Öztan Yasun'un planladığı tedaviler sonrasında deneyimlerini paylaşan hastalarımızdan seçtiğimiz yorumları keşfedin.
+            Dr. Öztan Yasun&apos;un planladığı tedaviler sonrasında deneyimlerini paylaşan hastalarımızdan seçtiğimiz yorumları keşfedin.
           </p>
         </div>
         <div className="space-y-10">

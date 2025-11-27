@@ -1,3 +1,4 @@
+import type { BlogPost } from "@prisma/client";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -33,8 +34,7 @@ const Home = async () => {
   const featuredServices = services.slice(0, 6);
   const featuredTeam = teamMembers.slice(0, 2);
 
-  // Tip uyuşmazlığı yaşanmaması için any[] ile başlatıyoruz
-  let latestPosts: any[] = [];
+  let latestPosts: BlogPost[] = [];
 
   try {
     latestPosts = await prisma.blogPost.findMany({
@@ -104,7 +104,7 @@ const Home = async () => {
             <div className="text-center">
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-[#384B70]">Akademik Bakış</p>
               <h2 className="font-heading text-3xl tracking-tight text-slate-900 md:text-4xl">
-                Dr. Öztan Yasun'un Kaleminden
+                Dr. Öztan Yasun&apos;un Kaleminden
               </h2>
               <div className="mx-auto accent-line" />
               <p className="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
@@ -147,9 +147,9 @@ const Home = async () => {
               </div>
             ) : (
               <div className="mt-12 flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-200 bg-white/70 p-10 text-center">
-                <p className="text-slate-500">Dr. Öztan Yasun'un makaleleri yakında burada yayınlanacak.</p>
-              </div>
-            )}
+                <p className="text-slate-500">Dr. Öztan Yasun&apos;un makaleleri yakında burada yayınlanacak.</p>
+            </div>
+          )}
 
             <div className="mt-12 text-center">
               <Link

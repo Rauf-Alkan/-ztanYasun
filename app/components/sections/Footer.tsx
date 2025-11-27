@@ -14,7 +14,6 @@ const footerServices = [
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const clinicName = "Dr. Öztan Yasun";
   const clinicFullName = "Dr. Öztan Yasun Kliniği";
 
   return (
@@ -116,7 +115,7 @@ const Footer = () => {
                     d="M4 6h12M4 10h12M4 14h12"
                   />
                 </svg>
-                Kızılay Meydanı'na 2 dakika yürüme mesafesi, [Referans Bina] karşısı.
+                Kızılay Meydanı&apos;na 2 dakika yürüme mesafesi, [Referans Bina] karşısı.
               </li>
               <li className="flex items-start gap-3">
                 <svg

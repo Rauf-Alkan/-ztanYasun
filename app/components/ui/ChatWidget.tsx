@@ -28,7 +28,6 @@ const ChatWidget = () => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToBottom = () => {
-    // requestAnimationFrame render bitimini bekler, daha pürüzsüz kaydırır
     requestAnimationFrame(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     });
@@ -96,9 +95,13 @@ const ChatWidget = () => {
   };
 
   return (
-    <div className="fixed right-5 bottom-24 z-[9999] flex flex-col items-end font-sans transition-all duration-300 md:bottom-6 md:right-28">
+    // DÜZELTME 1: Ana kapsayıcıya "pointer-events-none" ekledik.
+    // Bu sayede görünmez kutu sayfanın altındaki butonları engellemez.
+    <div className="fixed right-5 bottom-24 z-[9999] flex flex-col items-end font-sans transition-all duration-300 md:bottom-6 md:right-28 pointer-events-none">
+      
       <div
-        className={`mb-4 flex h-[500px] max-h-[80vh] w-[90vw] flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-2xl transition-all duration-300 origin-bottom-right transform sm:w-[380px] ${
+        // DÜZELTME 2: Sohbet penceresi açıldığında "pointer-events-auto" ekledik.
+        className={`mb-4 flex h-[500px] max-h-[80vh] w-[90vw] flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-2xl transition-all duration-300 origin-bottom-right transform sm:w-[380px] pointer-events-auto ${
           isOpen
             ? "scale-100 opacity-100"
             : "pointer-events-none scale-0 opacity-0"
@@ -146,7 +149,6 @@ const ChatWidget = () => {
                 }`}
               >
                 {msg.role === "model" ? (
-                  /* DÜZELTME BURADA: ReactMarkdown'ı saran bir div oluşturduk ve classları ona verdik */
                   <div className="markdown-content text-sm leading-relaxed [&_*]:text-inherit [&_a]:text-sky-600 [&_a]:underline [&_li]:my-0.5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-4 [&_p]:my-1 [&_strong]:text-gray-900 [&_strong]:font-semibold [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-4">
                     <ReactMarkdown
                       components={{
@@ -207,7 +209,8 @@ const ChatWidget = () => {
       {/* Toggle Butonu */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`flex h-16 w-16 items-center justify-center rounded-full shadow-[0_4px_14px_rgba(14,165,233,0.4)] transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+        // DÜZELTME 3: Butona "pointer-events-auto" ekledik. Kapsayıcı none olsa bile buton çalışır.
+        className={`pointer-events-auto flex h-16 w-16 items-center justify-center rounded-full shadow-[0_4px_14px_rgba(14,165,233,0.4)] transition-all duration-300 transform hover:scale-110 active:scale-95 ${
           isOpen
             ? "rotate-90 bg-gray-100 text-gray-600"
             : "bg-gradient-to-tr from-[#0ea5e9] to-[#0284c7] text-white"
