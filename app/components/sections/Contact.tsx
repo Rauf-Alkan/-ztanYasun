@@ -32,15 +32,15 @@ const infoItems = [
 const Contact = () => {
   return (
     <>
-      {/* --- HERO SECTION --- */}
-      <section className="bg-[var(--color-brand-navy)] py-20 lg:py-24 text-center">
-        <div className="container-custom">
-           <h1 className="font-heading text-4xl lg:text-5xl text-white mb-4">
-             Bize Ulaşın
-           </h1>
-           <p className="text-blue-100 max-w-2xl mx-auto text-lg">
-             Hayalinizdeki gülüşe kavuşmak için ilk adımı atın. Ekibimiz sorularınızı yanıtlamak için hazır.
-           </p>
+      {/* --- HERO SECTION (Minimal) --- */}
+      <section className="py-16">
+        <div className="container-custom text-center space-y-4">
+          <h1 className="font-heading text-5xl font-semibold tracking-tight text-[var(--color-brand-navy)]">
+            İletişim & Randevu
+          </h1>
+          <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
+            Hayalinizdeki gülüşe kavuşmak için ilk adımı atın. Hasta koordinatörümüz size kısa sürede dönüş sağlar.
+          </p>
         </div>
       </section>
 
@@ -50,9 +50,9 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             
             {/* SOL: İletişim Bilgileri */}
-            <div className="space-y-12">
+            <div className="space-y-8">
               <div>
-                <h2 className="font-heading text-3xl text-[var(--color-brand-navy)] mb-6">
+                <h2 className="font-heading text-3xl text-[var(--color-brand-navy)] mb-4">
                   İletişim Bilgileri
                 </h2>
                 <p className="text-slate-600 leading-relaxed">
@@ -61,14 +61,14 @@ const Contact = () => {
                 </p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-6 bg-[#F9FAFB] rounded-2xl p-8 border border-slate-100">
                 {infoItems.map((item, index) => (
-                  <div key={index} className="flex items-start gap-5 p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:border-[var(--color-brand-gold)] transition-colors group">
-                    <div className="w-12 h-12 rounded-full bg-white text-[var(--color-brand-navy)] flex items-center justify-center shadow-sm shrink-0 group-hover:text-[var(--color-brand-gold)] transition-colors">
+                  <div key={index} className="grid grid-cols-[auto_1fr] items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-sm transition-all">
+                    <div className="w-11 h-11 rounded-full bg-white text-[var(--color-brand-navy)] flex items-center justify-center shadow-sm border border-slate-100 shrink-0 hover:text-[var(--color-brand-gold)] transition-colors">
                        {item.icon}
                     </div>
-                    <div>
-                       <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--color-brand-navy)] mb-2">
+                    <div className="space-y-1">
+                       <h3 className="text-sm font-semibold text-[var(--color-brand-navy)]">
                          {item.label}
                        </h3>
                        
@@ -100,12 +100,9 @@ const Contact = () => {
 
             {/* SAĞ: Form */}
             <div className="bg-white rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-100 p-8 lg:p-10">
-               <h3 className="font-heading text-2xl text-[var(--color-brand-navy)] mb-2">
+               <h3 className="font-heading text-2xl text-[var(--color-brand-navy)] mb-4">
                  Randevu Talebi
                </h3>
-               <p className="text-slate-500 text-sm mb-8">
-                 Formu doldurun, hasta koordinatörümüz en kısa sürede sizi arayarak randevunuzu planlasın.
-               </p>
                <AppointmentForm />
             </div>
 
@@ -114,7 +111,7 @@ const Contact = () => {
       </section>
 
       {/* --- MAP SECTION (Full Width) --- */}
-      <section className="h-[450px] w-full relative grayscale hover:grayscale-0 transition-all duration-500">
+      <section className="h-[450px] w-full relative grayscale hover:grayscale-0 transition-all duration-500 mt-16 lg:mt-20">
          <iframe
             title="Dr. Öztan Yasun Kliniği Konum"
             src="https://maps.google.com/maps?q=Ankara%20Kızılay&t=&z=15&ie=UTF8&iwloc=&output=embed" // Geçici URL, kendi Google Maps Embed kodunu buraya koymalısın

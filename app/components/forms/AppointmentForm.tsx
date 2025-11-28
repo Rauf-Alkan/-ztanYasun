@@ -23,7 +23,7 @@ type AppointmentFormProps = {
 
 // YENİ INPUT STİLİ: Daha kurumsal, keskin hatlar, focus olunca Lacivert border.
 const baseInputClasses =
-  "w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-3.5 text-base text-[var(--color-brand-navy)] placeholder:text-slate-400 transition-all duration-200 focus:border-[var(--color-brand-navy)] focus:bg-white focus:ring-1 focus:ring-[var(--color-brand-navy)] outline-none";
+  "w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base text-[var(--color-brand-navy)] placeholder:text-slate-400 shadow-sm transition-all duration-200 focus:border-[var(--color-brand-navy)] focus:ring-2 focus:ring-[var(--color-brand-navy)] outline-none";
 
 const sanitizeInput = (value: string) => value.replace(/[<>]/g, "");
 
@@ -193,7 +193,7 @@ const AppointmentForm = ({ wrapperClassName }: AppointmentFormProps) => {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full rounded-lg bg-[var(--color-brand-gold)] py-4 text-white font-bold text-sm uppercase tracking-wide shadow-lg shadow-orange-100 transition-all hover:bg-[var(--color-brand-gold-hover)] hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+        className="w-full md:w-auto inline-flex justify-center rounded-xl bg-[var(--color-brand-navy)] px-6 py-3 text-white font-medium text-lg shadow-lg shadow-[var(--color-brand-navy)]/20 transition-all hover:bg-[var(--color-brand-navy-light)] hover:-translate-y-[2px] disabled:opacity-70 disabled:cursor-not-allowed"
       >
         {status === "loading" ? "Gönderiliyor..." : "Randevu Talebi Oluştur"}
       </button>

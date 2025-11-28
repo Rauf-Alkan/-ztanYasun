@@ -98,19 +98,18 @@ const AboutPage = () => {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="relative aspect-[4/5] w-full max-w-[520px] ml-auto overflow-hidden rounded-[28px] shadow-2xl shadow-slate-300/40 border border-white ring-1 ring-[var(--color-brand-navy)]/10">
-              <Image
-                src="/doctor2.webp"
-                alt="Dr. Öztan Yasun"
-                fill
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
+            <div className="relative">
+              <div className="relative aspect-[4/5] w-full max-w-[520px] ml-auto overflow-hidden rounded-[28px] shadow-2xl shadow-slate-300/40 border border-white ring-1 ring-[var(--color-brand-navy)]/10">
+                <Image
+                  src="/doctor-hero-unsplash.jpg"
+                  alt="Dr. Öztan Yasun"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
+              </div>
             </div>
-            <div className="absolute -left-8 -bottom-8 h-32 w-32 rounded-3xl bg-white shadow-xl shadow-slate-200/70 border border-slate-100/70" />
-          </div>
         </div>
       </section>
 
@@ -123,7 +122,7 @@ const AboutPage = () => {
             <div className="relative">
               <div className="relative aspect-[4/5] rounded-[30px] overflow-hidden shadow-2xl shadow-slate-200 border border-white ring-1 ring-[var(--color-brand-navy)]/10">
                 <Image
-                  src="/doctor3.webp"
+                  src="/doctor-bio-unsplash.jpg"
                   alt="Dr. Öztan Yasun"
                   fill
                   className="object-cover"

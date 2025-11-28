@@ -53,11 +53,11 @@ const BlogGrid = ({ blogs }: BlogGridProps) => {
   return (
     <>
       {/* --- ÜST BİLGİ ALANI --- */}
-      <section className="text-center max-w-2xl mx-auto mb-16">
+      <section className="text-center max-w-2xl mx-auto mb-16 pt-16 pb-12 bg-[#F8FAFC] rounded-3xl">
           <span className="text-[var(--color-brand-gold)] font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
             Klinik Kütüphanesi
           </span>
-          <h1 className="font-heading text-4xl md:text-5xl text-[var(--color-brand-navy)] mb-6">
+          <h1 className="font-heading text-5xl font-semibold text-[var(--color-brand-navy)] mb-6 leading-[1.05]">
             Diş Hekimliği Rehberi
           </h1>
           <p className="text-slate-600 text-lg leading-relaxed">
@@ -71,17 +71,17 @@ const BlogGrid = ({ blogs }: BlogGridProps) => {
              </div>
              <input
                 type="text"
-                placeholder="Tedavi veya konu ara..."
+                placeholder="Makale ara..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 rounded-full border border-slate-200 shadow-sm focus:border-[var(--color-brand-navy)] focus:ring-1 focus:ring-[var(--color-brand-navy)] outline-none transition-all placeholder:text-slate-400 text-slate-700 bg-white"
+                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 shadow-sm text-base placeholder:text-slate-400 text-slate-700 bg-white focus:border-[var(--color-brand-navy)] focus:ring-1 focus:ring-[var(--color-brand-navy)] outline-none transition-all"
              />
           </div>
       </section>
 
       {/* --- BLOG LİSTESİ --- */}
-      <section>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
           {filteredBlogs.length === 0 ? (
             <div className="col-span-full py-20 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
                <p className="text-slate-500 text-lg">Aradığınız kriterlere uygun yazı bulunamadı.</p>
@@ -94,39 +94,41 @@ const BlogGrid = ({ blogs }: BlogGridProps) => {
               <Link
                 key={blog.slug}
                 href={`/blog/${blog.slug}`}
-                className="group flex flex-col h-full bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-xl hover:border-[var(--color-brand-gold)]/50 hover:-translate-y-1 transition-all duration-300"
+                className="group flex flex-col h-full bg-white rounded-2xl border border-slate-100 shadow-md overflow-hidden hover:shadow-xl hover:border-[var(--color-brand-gold)]/50 hover:-translate-y-1 transition-all duration-300 max-w-[430px] w-full mx-auto"
               >
                 {/* Görsel */}
-                <div className="relative h-56 w-full overflow-hidden bg-slate-100">
-                   <Image
+                <div className="relative w-full overflow-hidden bg-slate-100">
+                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    <Image
                       src={blog.coverImage || "/hero.webp"}
                       alt={blog.title}
                       fill
-                      className="object-cover transition duration-700 group-hover:scale-110"
+                      className="object-cover transition duration-700 group-hover:scale-[1.03]"
                       sizes="(max-width: 768px) 100vw, 33vw"
-                   />
-                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-[var(--color-brand-navy)] uppercase tracking-wider shadow-sm">
-                      {formatDate(blog.publishedAt)}
-                   </div>
+                    />
+                  </div>
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-[var(--color-brand-navy)] uppercase tracking-wider shadow-sm">
+                    {formatDate(blog.publishedAt)}
+                  </div>
                 </div>
 
                 {/* İçerik */}
                 <div className="flex flex-col flex-1 p-6 md:p-8">
-                   <h2 className="font-heading text-xl font-bold text-[var(--color-brand-navy)] mb-3 leading-tight group-hover:text-[var(--color-brand-navy-light)] transition-colors">
+                   <h2 className="font-heading text-xl font-semibold text-[var(--color-brand-navy)] mb-3 leading-snug group-hover:text-[var(--color-brand-navy-light)] transition-colors">
                       {blog.title}
                    </h2>
-                   <p className="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-6 flex-grow">
+                   <p className="text-slate-600 text-base leading-relaxed line-clamp-3 mb-6 flex-grow">
                       {blog.summary}
                    </p>
                    
                    {/* Alt Bilgi */}
                    <div className="flex items-center justify-between pt-6 border-t border-slate-50 mt-auto">
-                      <div className="flex items-center gap-4 text-xs text-slate-400 font-medium uppercase tracking-wider">
-                         <span className="flex items-center gap-1">
-                            <LuClock className="w-3 h-3" /> {blog.readTime} dk
+                      <div className="flex items-center gap-2 text-xs text-slate-600 font-medium">
+                         <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
+                            <LuClock className="w-3.5 h-3.5" /> {blog.readTime} dk
                          </span>
-                         <span className="flex items-center gap-1">
-                            <LuEye className="w-3 h-3" /> {blog.views}
+                         <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
+                            <LuEye className="w-3.5 h-3.5" /> {blog.views}
                          </span>
                       </div>
                       <span className="w-8 h-8 rounded-full bg-[var(--color-brand-navy)]/5 text-[var(--color-brand-navy)] flex items-center justify-center group-hover:bg-[var(--color-brand-navy)] group-hover:text-white transition-all">

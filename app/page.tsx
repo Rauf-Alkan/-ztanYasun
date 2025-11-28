@@ -137,7 +137,7 @@ const Home = async () => {
                <div className="relative order-2 lg:order-1">
                   <div className="relative aspect-[3/4] rounded-[28px] overflow-hidden shadow-2xl border border-white/60 ring-1 ring-[var(--color-brand-navy)]/10">
                      <Image 
-                        src="/doctor3.webp" 
+                        src="/doctor-hero-unsplash.jpg" 
                         alt="Dr. Öztan Yasun" 
                         fill 
                         className="object-cover"
