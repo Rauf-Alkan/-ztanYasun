@@ -6,12 +6,12 @@ export const dynamic = "force-dynamic";
 const infoItems = [
   {
     label: "Klinik Adresi",
-    value: "Meşrutiyet Mah., Atatürk Bulvarı\nNo: XX, Kat: X, Kızılay, Çankaya/Ankara",
+    value: "Sezenler Caddesi No: 4/3, Çankaya, Ankara",
     icon: <LuMapPin className="h-6 w-6" />,
   },
   {
     label: "Telefon & WhatsApp",
-    value: ["0312 000 00 00", "0500 000 00 00"], // Array olabilir
+    value: "05324774391",
     icon: <LuPhone className="h-6 w-6" />,
     isLink: true,
   },
@@ -32,17 +32,16 @@ const infoItems = [
 const Contact = () => {
   return (
     <>
-      {/* --- HERO SECTION (Minimal) --- */}
-      <section className="relative overflow-hidden pt-24 pb-16">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -left-24 top-0 h-64 w-64 rounded-full bg-[var(--color-brand-gold)]/12 blur-3xl" />
-          <div className="absolute right-0 top-6 h-72 w-72 rounded-full bg-[var(--color-brand-navy)]/8 blur-3xl" />
-        </div>
-        <div className="container-custom relative text-center space-y-5">
+      {/* --- SAYFA BAŞLIK --- */}
+      <section className="bg-white pt-24 pb-14">
+        <div className="container-custom mx-auto max-w-3xl text-center space-y-4">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#F5EBDD] px-4 py-2 text-sm font-semibold text-[#0C1B33]">
+            <span className="h-2 w-2 rounded-full bg-[#CFAE78]" />
+            İletişim & Randevu
+          </div>
           <h1 className="font-heading text-5xl font-semibold tracking-tight text-[var(--color-brand-navy)] leading-[1.05]">
             İletişim
           </h1>
-          <div className="mx-auto h-[3px] w-16 rounded-full bg-[var(--color-brand-gold)]/80" />
           <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
             Hayalinizdeki gülüşe kavuşmak için ilk adımı atın. Hasta koordinatörümüz size kısa sürede dönüş sağlar.
           </p>
@@ -50,26 +49,34 @@ const Contact = () => {
       </section>
 
       {/* --- MAIN CONTENT --- */}
-      <section id="contact" className="section-spacing bg-white">
+      <section id="contact" className="section-spacing bg-white pb-8">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             
             {/* SOL: İletişim Bilgileri */}
             <div className="space-y-8">
               <div>
-                <h2 className="font-heading text-3xl text-[var(--color-brand-navy)] mb-4">
-                  İletişim Bilgileri
-                </h2>
+                <div className="inline-flex items-center gap-2 rounded-full bg-[#F5EBDD] px-3 py-1 text-xs font-semibold text-[var(--color-brand-navy)]">
+                  <span className="h-2 w-2 rounded-full bg-[#CFAE78]" />
+                  Bize Ulaşın
+                </div>
+                <div className="mt-4 flex items-center gap-3">
+                  <span className="h-1.5 w-10 rounded-full bg-[#CFAE78]" />
+                  <h2 className="font-heading text-3xl text-[var(--color-brand-navy)]">
+                    İletişim Bilgileri
+                  </h2>
+                </div>
                 <p className="text-slate-600 leading-relaxed">
-                  Ankara&apos;nın merkezi Kızılay&apos;da, ulaşımı kolay lokasyonumuzda hizmetinizdeyiz. 
+                  Sezenler Caddesi No: 4/3, Çankaya, Ankara adresindeki kliniğimizde hizmetinizdeyiz. 
                   Randevu ve bilgi için aşağıdaki kanalları kullanabilirsiniz.
                 </p>
+                <div className="h-1 w-12 rounded-full bg-[#CFAE78]/70 mt-5" />
               </div>
 
               <div className="space-y-6 bg-[#F9FAFB] rounded-2xl p-8 border border-slate-100 shadow-[0_10px_40px_rgba(12,27,51,0.05)]">
                 {infoItems.map((item, index) => (
                   <div key={index} className="grid grid-cols-[auto_1fr] items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-sm transition-all">
-                    <div className="w-11 h-11 rounded-full bg-white text-[var(--color-brand-navy)] flex items-center justify-center shadow-sm border border-slate-100 shrink-0 hover:text-[var(--color-brand-gold)] transition-colors">
+                    <div className="w-11 h-11 rounded-full bg-white text-[#CFAE78] flex items-center justify-center shadow-sm border border-[#F1E4CD] shrink-0">
                        {item.icon}
                     </div>
                     <div className="space-y-1 border-l border-[var(--color-brand-gold)]/40 pl-3">
@@ -105,10 +112,13 @@ const Contact = () => {
 
             {/* SAĞ: Form */}
             <div className="bg-white rounded-3xl shadow-2xl shadow-slate-200/60 border border-slate-100 p-8 lg:p-10">
-               <h3 className="font-heading text-2xl text-[var(--color-brand-navy)] mb-4">
-                 Randevu Talebi
-               </h3>
-               <AppointmentForm />
+               <div className="flex items-center gap-3 mb-6">
+                 <span className="h-1.5 w-10 rounded-full bg-[#CFAE78]" />
+                 <h3 className="font-heading text-2xl text-[var(--color-brand-navy)]">
+                   Randevu Talebi
+                 </h3>
+               </div>
+               <AppointmentForm wrapperClassName="space-y-5" />
             </div>
 
           </div>
@@ -116,10 +126,10 @@ const Contact = () => {
       </section>
 
       {/* --- MAP SECTION (Full Width) --- */}
-      <section className="h-[450px] w-full relative grayscale hover:grayscale-0 transition-all duration-500 mt-16 lg:mt-20">
+      <section className="h-[450px] w-full relative grayscale hover:grayscale-0 transition-all duration-500 mt-8 lg:mt-10">
          <iframe
             title="Dr. Öztan Yasun Kliniği Konum"
-            src="https://maps.google.com/maps?q=Ankara%20Kızılay&t=&z=15&ie=UTF8&iwloc=&output=embed" // Geçici URL, kendi Google Maps Embed kodunu buraya koymalısın
+            src="https://maps.google.com/maps?q=Sezenler%20Caddesi%20No%204%2F3%20%C3%87ankaya%20Ankara&t=&z=16&ie=UTF8&iwloc=&output=embed" // Geçici URL, kendi Google Maps Embed kodunu buraya koymalısın
             width="100%"
             height="100%"
             style={{ border: 0 }}

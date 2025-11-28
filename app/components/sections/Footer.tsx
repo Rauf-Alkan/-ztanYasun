@@ -80,7 +80,7 @@ const Footer = () => {
             <div className="space-y-2 text-xs md:text-sm text-slate-300 pt-1">
               <div className="flex items-start gap-2">
                 <span className="text-[var(--color-brand-gold)] text-base">📍</span>
-                <span>Meşrutiyet Mah. Atatürk Bulvarı, Çankaya</span>
+                <span>Sezenler Caddesi No: 4/3, Çankaya, Ankara</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[var(--color-brand-gold)] text-base">📞</span>

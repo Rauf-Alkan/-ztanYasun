@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import heroSlides from "@/data/heroSlides";
 import HeroSlide from "./HeroSlide";
 
-const AUTO_INTERVAL = 6000; // Biraz daha yavaşlattım, okunabilsin.
+// Hero kaydırıcısının otomatik geçiş süresi (ms)
+const AUTO_INTERVAL = 10000;
 
 const HeroSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,7 +28,7 @@ const HeroSlider = () => {
 
   return (
     // Gradient kaldırıldı. Temiz beyaz/gri geçişli arka plan.
-    <section className="relative w-full overflow-hidden bg-[var(--color-brand-gray)]">
+    <section className="relative w-full overflow-hidden bg-[var(--color-brand-gray)] pt-24 md:pt-28">
       
       {/* Yükseklik mobilde ve desktopta ayarlandı */}
       <div className="relative min-h-[85vh] lg:min-h-[700px] flex items-center">
