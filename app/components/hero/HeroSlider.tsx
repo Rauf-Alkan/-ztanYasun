@@ -46,10 +46,10 @@ const HeroSlider = () => {
           <button
             key={`dot-${index}`}
             onClick={() => setCurrentIndex(index)}
-            className={`h-2 rounded-full transition-all duration-300 ${
+            className={`h-2.5 rounded-full border border-[var(--color-brand-navy)]/20 backdrop-blur transition-all duration-300 ${
               currentIndex === index 
-              ? "w-8 bg-[var(--color-brand-navy)]" 
-              : "w-2 bg-[var(--color-brand-navy)]/20 hover:bg-[var(--color-brand-navy)]/40"
+              ? "w-10 bg-[var(--color-brand-navy)] shadow-lg shadow-[var(--color-brand-navy)]/20" 
+              : "w-3 bg-white/80 hover:w-6 hover:bg-[var(--color-brand-navy)]/40"
             }`}
             aria-label={`Slide ${index + 1}`}
           />

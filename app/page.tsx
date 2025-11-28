@@ -10,7 +10,7 @@ import AppointmentForm from "@/components/forms/AppointmentForm";
 import { services } from "@/components/sections/Services";
 
 // İkonlar
-import { LuArrowRight, LuCheck, LuCalendar } from "react-icons/lu";
+import { LuArrowRight, LuCheck, LuCalendar, LuMicroscope, LuShieldCheck, LuSparkles } from "react-icons/lu";
 
 export const metadata: Metadata = {
   title: "Dr. Öztan Yasun | Estetik Diş Hekimi - Ankara",
@@ -38,6 +38,19 @@ type BlogPostSummary = {
 
 const Home = async () => {
   const featuredServices = services.slice(0, 6);
+  const serviceImages: Record<string, string> = {
+    implant: "/services/implant-hero.webp",
+    "gulus-tasarimi": "/services/gulus-hero.webp",
+    "dis-beyazlatma": "/services/beyazlatma-hero.webp",
+    ortodonti: "/services/ortodonti-hero.webp",
+    "zirkonyum-kaplama": "/services/zirkonyum-hero.webp",
+    "dolgu-kanal": "/services/dolgu-hero.webp",
+  };
+  const doctorHighlights = [
+    { icon: <LuShieldCheck className="w-5 h-5" />, text: "15+ Yıllık Deneyim" },
+    { icon: <LuMicroscope className="w-5 h-5" />, text: "Dijital Cerrahi" },
+    { icon: <LuSparkles className="w-5 h-5" />, text: "Estetik Gülüş Tasarımı" },
+  ];
   
   let latestPosts: BlogPostSummary[] = [];
   
@@ -68,27 +81,41 @@ const Home = async () => {
               <h2 className="font-heading text-3xl md:text-5xl text-[var(--color-brand-navy)] mb-6">
                 Kişiye Özel Tedavi Çözümleri
               </h2>
-              <p className="mx-auto max-w-2xl text-slate-600 text-lg leading-relaxed">
-                Estetik ve fonksiyonu birleştiren dijital diş hekimliği çözümleriyle, 
-                gülüşünüzü bilimin ve sanatın ışığında yeniden tasarlıyoruz.
+              <p className="mx-auto max-w-3xl text-slate-600 text-lg leading-relaxed">
+                Dr. Öztan Yasun&apos;un imzasını taşıyan protokoller; cerrahi hassasiyet, estetik bakış ve dijital planlamanın birleşimiyle her vaka için premium sonuçlar üretir.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {featuredServices.map((service) => (
                 <Link
                   key={service.slug}
                   href={`/hizmetler/${service.slug}`}
-                  className="group relative flex flex-col p-8 rounded-2xl bg-white border border-slate-100 shadow-lg shadow-slate-200/40 hover:shadow-xl hover:border-[var(--color-brand-gold)] hover:-translate-y-1 transition-all duration-300"
+                  className="group relative flex flex-col overflow-hidden rounded-2xl bg-white border border-slate-100 shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:border-[var(--color-brand-gold)] hover:-translate-y-2 transition-all duration-300"
                 >
-                  <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--color-brand-navy)]/5 text-[var(--color-brand-navy)] text-3xl group-hover:bg-[var(--color-brand-navy)] group-hover:text-white transition-colors duration-300">
-                    {service.icon}
+                  <div className="relative aspect-square w-full overflow-hidden">
+                    <Image
+                      src={serviceImages[service.slug] || "/service1.webp"}
+                      alt={service.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-brand-navy)]/55 via-black/10 to-transparent" />
+                    <div className="absolute left-4 top-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 text-[var(--color-brand-navy)] text-2xl shadow-lg">
+                      {service.icon}
+                    </div>
                   </div>
-                  <h3 className="mb-3 text-xl font-bold text-[var(--color-brand-navy)]">{service.title}</h3>
-                  <p className="text-slate-600 mb-6 leading-relaxed text-sm flex-grow">{service.description}</p>
-                  
-                  <div className="mt-auto pt-4 border-t border-slate-50 flex items-center text-[var(--color-brand-navy)] font-bold text-sm group-hover:gap-2 transition-all">
-                    İncele <LuArrowRight className="ml-2 w-4 h-4" />
+                  <div className="p-7 flex flex-col flex-1">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand-gold)] mb-2">
+                      Klinik Protokol
+                    </p>
+                    <h3 className="mb-3 text-xl font-semibold text-[var(--color-brand-navy)]">{service.title}</h3>
+                    <p className="text-slate-600 mb-6 leading-relaxed text-sm flex-grow">{service.description}</p>
+                    
+                    <span className="mt-auto inline-flex items-center gap-2 text-[var(--color-brand-navy)] font-semibold text-sm relative pb-1 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-[var(--color-brand-gold)] after:transition-transform after:duration-300 group-hover:after:scale-x-100 group-hover:gap-3">
+                      İncele <LuArrowRight className="w-4 h-4" />
+                    </span>
                   </div>
                 </Link>
               ))}
@@ -108,9 +135,9 @@ const Home = async () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                
                <div className="relative order-2 lg:order-1">
-                  <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-white">
+                  <div className="relative aspect-[3/4] rounded-[28px] overflow-hidden shadow-2xl border border-white/60 ring-1 ring-[var(--color-brand-navy)]/10">
                      <Image 
-                        src="/doctor1.webp" 
+                        src="/doctor3.webp" 
                         alt="Dr. Öztan Yasun" 
                         fill 
                         className="object-cover"
@@ -150,9 +177,20 @@ const Home = async () => {
                      </div>
                   </div>
 
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {doctorHighlights.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-3 rounded-2xl bg-white shadow-md border border-slate-100 px-4 py-3">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-[var(--color-brand-navy)]/5 text-[var(--color-brand-navy)]">
+                          {item.icon}
+                        </div>
+                        <span className="text-sm font-semibold text-[var(--color-brand-navy)] leading-tight">{item.text}</span>
+                      </div>
+                    ))}
+                  </div>
+
                   <Link 
                      href="/ekibimiz" 
-                     className="inline-flex px-8 py-3 bg-[var(--color-brand-navy)] text-white rounded-lg font-bold shadow-lg hover:bg-[var(--color-brand-navy-light)] transition-all"
+                     className="inline-flex px-9 py-3.5 bg-[var(--color-brand-navy)] text-white rounded-full font-semibold shadow-lg hover:bg-[var(--color-brand-navy-light)] transition-all"
                   >
                      Hekimimizi Tanıyın
                   </Link>
@@ -174,7 +212,7 @@ const Home = async () => {
                     Akademik Bakış
                   </span>
                   <h2 className="font-heading text-3xl md:text-4xl text-[var(--color-brand-navy)]">
-                    Hekimden Tavsiyeler
+                    Hekimden Yazılar
                   </h2>
                </div>
                <Link href="/blog" className="text-[var(--color-brand-navy)] font-bold border-b border-transparent hover:border-[var(--color-brand-navy)] transition-all">
@@ -182,10 +220,10 @@ const Home = async () => {
                </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {latestPosts.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`} className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:border-[var(--color-brand-gold)]/50 transition-all duration-300">
-                  <div className="relative h-56 overflow-hidden">
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group bg-white rounded-2xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-2xl hover:border-[var(--color-brand-gold)]/60 transition-all duration-300">
+                  <div className="relative overflow-hidden aspect-[4/3]">
                     <Image
                       src={post.coverImage || "/hero.webp"}
                       alt={post.title}
@@ -194,17 +232,19 @@ const Home = async () => {
                     />
                   </div>
                   <div className="p-8">
-                    <div className="flex items-center gap-2 text-xs font-bold text-[var(--color-brand-gold)] uppercase tracking-wider mb-3">
-                       <LuCalendar className="w-3 h-3" />
-                       {formatDate(post.publishedAt)}
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-3">
+                       <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-brand-gray)] px-3 py-1 text-[var(--color-brand-navy)] border border-slate-100">
+                          <LuCalendar className="w-3 h-3" />
+                          {formatDate(post.publishedAt)}
+                       </span>
                     </div>
-                    <h3 className="text-xl font-bold text-[var(--color-brand-navy)] leading-snug line-clamp-2 group-hover:text-[var(--color-brand-navy-light)] transition-colors">
+                    <h3 className="text-xl font-semibold text-[var(--color-brand-navy)] leading-snug line-clamp-2 group-hover:text-[var(--color-brand-navy-light)] transition-colors">
                       {post.title}
                     </h3>
                     <p className="mt-3 text-slate-600 line-clamp-3 text-sm leading-relaxed">
                       {post.summary}
                     </p>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--color-brand-navy)]">
+                    <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-brand-navy)] relative pb-1 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[var(--color-brand-gold)] after:origin-left after:scale-x-0 group-hover:after:scale-x-100 after:transition-transform after:duration-300">
                        Devamını Oku <LuArrowRight className="w-4 h-4" />
                     </span>
                   </div>
@@ -215,41 +255,46 @@ const Home = async () => {
       </section>
 
       {/* --- 5. BÖLÜM: İLETİŞİM & FORM --- */}
-      <section className="py-20 bg-[var(--color-brand-navy)] text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-[var(--color-brand-navy)] to-[var(--color-brand-navy)]"></div>
-          
+      <section className="py-20 bg-[#F8FAFC] text-[var(--color-brand-navy)] relative overflow-hidden">
           <div className="container-custom relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               
-              <div>
-                <h2 className="font-heading text-3xl md:text-5xl mb-6 leading-tight">
+              <div className="space-y-6">
+                <h2 className="font-heading text-3xl md:text-5xl mb-2 leading-tight">
                    Gülüşünüzü Ertelemeyin,<br/>
                    <span className="text-[var(--color-brand-gold)]">Bugün Harekete Geçin.</span>
                 </h2>
-                <p className="text-blue-100 text-lg mb-8 leading-relaxed">
+                <p className="text-slate-600 text-lg leading-relaxed">
                   Ankara&apos;nın merkezinde, en ileri teknoloji ve uzman dokunuşlarla ağrısız bir diş hekimliği deneyimi sizi bekliyor.
                 </p>
                 
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/5">
-                     <div className="w-10 h-10 rounded-full bg-white text-[var(--color-brand-navy)] flex items-center justify-center shrink-0">📍</div>
+                  <div className="flex items-start gap-4 bg-white p-5 rounded-2xl border border-slate-100 shadow-md">
+                     <div className="w-10 h-10 rounded-full bg-[var(--color-brand-gray)] text-[var(--color-brand-navy)] flex items-center justify-center shrink-0 text-xl">📍</div>
                      <div>
                         <p className="text-xs text-[var(--color-brand-gold)] font-bold uppercase tracking-wider">Adres</p>
-                        <p className="font-medium">Meşrutiyet Mah. Atatürk Bulvarı, Çankaya / Ankara</p>
+                        <p className="font-medium text-slate-700 leading-relaxed">Meşrutiyet Mah. Atatürk Bulvarı, Çankaya / Ankara</p>
                      </div>
                   </div>
-                  <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/5">
-                     <div className="w-10 h-10 rounded-full bg-white text-[var(--color-brand-navy)] flex items-center justify-center shrink-0">📞</div>
+                  <div className="flex items-start gap-4 bg-white p-5 rounded-2xl border border-slate-100 shadow-md">
+                     <div className="w-10 h-10 rounded-full bg-[var(--color-brand-gray)] text-[var(--color-brand-navy)] flex items-center justify-center shrink-0 text-xl">📞</div>
                      <div>
                         <p className="text-xs text-[var(--color-brand-gold)] font-bold uppercase tracking-wider">Hemen Arayın</p>
-                        <p className="font-medium">0312 000 00 00</p>
+                        <p className="font-medium text-slate-700 leading-relaxed">0312 000 00 00</p>
+                     </div>
+                  </div>
+                  <div className="flex items-start gap-4 bg-white p-5 rounded-2xl border border-slate-100 shadow-md">
+                     <div className="w-10 h-10 rounded-full bg-[var(--color-brand-gray)] text-[var(--color-brand-navy)] flex items-center justify-center shrink-0 text-xl">✉️</div>
+                     <div>
+                        <p className="text-xs text-[var(--color-brand-gold)] font-bold uppercase tracking-wider">E-Posta</p>
+                        <p className="font-medium text-slate-700 leading-relaxed">info@droztanyasun.com</p>
                      </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-3xl p-8 text-slate-800 shadow-2xl shadow-black/20">
-                 <h3 className="text-xl font-bold text-[var(--color-brand-navy)] mb-2">Hızlı Randevu Oluştur</h3>
+              <div className="bg-white rounded-2xl p-8 md:p-10 text-slate-800 shadow-2xl shadow-slate-200 border border-slate-100">
+                 <h3 className="text-xl font-semibold text-[var(--color-brand-navy)] mb-2">Hızlı Randevu Oluştur</h3>
                  <p className="text-sm text-slate-500 mb-6">Formu doldurun, asistanımız 30 dk içinde size dönüş yapsın.</p>
                  <AppointmentForm />
               </div>

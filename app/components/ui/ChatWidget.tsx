@@ -37,11 +37,10 @@ const ChatWidget = () => {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  // --- EYLEM İŞLEYİCİSİ (ACTION HANDLER) ---
+  // --- EYLEM İŞLEYİCİSİ ---
   const handleServerAction = (text: string) => {
-    // 1. Randevu Formunu Açma
     if (text.includes("[[ACTION_OPEN_APPOINTMENT]]")) {
-      const formElement = document.getElementById("appointment-form"); // İletişim/Anasayfadaki formun ID'si
+      const formElement = document.getElementById("appointment-form");
       if (formElement) {
         setIsOpen(false);
         setTimeout(() => {
@@ -54,19 +53,14 @@ const ChatWidget = () => {
       }
       return text.replace("[[ACTION_OPEN_APPOINTMENT]]", "");
     }
-
-    // 2. WhatsApp Açma
     if (text.includes("[[ACTION_OPEN_WHATSAPP]]")) {
         window.open("https://wa.me/905000000000", "_blank");
         return text.replace("[[ACTION_OPEN_WHATSAPP]]", "");
     }
-
-    // 3. Telefon Arama
     if (text.includes("[[ACTION_CALL_PHONE]]")) {
         window.location.href = "tel:+903120000000";
         return text.replace("[[ACTION_CALL_PHONE]]", "");
     }
-
     return text;
   };
 
@@ -96,9 +90,7 @@ const ChatWidget = () => {
 
       const data = await response.json();
       let replyText = typeof data?.reply === "string" ? data.reply : "Bağlantı hatası.";
-
       replyText = handleServerAction(replyText);
-
       setMessages((prev) => [...prev, { role: "model", parts: [{ text: replyText }] }]);
     } catch (error) {
       console.error("Chat error:", error);
@@ -109,103 +101,76 @@ const ChatWidget = () => {
   };
 
   return (
-    <div className="fixed right-6 bottom-24 z-[9999] flex flex-col items-end font-sans transition-all duration-300 md:bottom-8 md:right-8 pointer-events-none">
+    // Pointer-events-none: Kapalıyken arkadaki butonlara tıklanabilsin diye
+    <div className="fixed right-6 bottom-24 z-[9999] flex flex-col items-end font-sans pointer-events-none md:bottom-8 md:right-8">
       
-      {/* --- SOHBET PENCERESİ --- */}
+      {/* --- SOHBET PENCERESİ (BALON) --- */}
       <div
-        className={`mb-6 flex h-[600px] max-h-[85vh] w-[90vw] sm:w-[400px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl transition-all duration-300 origin-bottom-right transform pointer-events-auto ${
-          isOpen 
-            ? "scale-100 opacity-100 translate-y-0" 
-            : "pointer-events-none scale-90 opacity-0 translate-y-10"
+        className={`pointer-events-auto mb-6 flex flex-col overflow-hidden rounded-3xl border border-white/50 bg-white shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] origin-bottom-right transform 
+        ${isOpen 
+            ? "scale-100 opacity-100 translate-y-0 w-[90vw] h-[600px] sm:w-[420px] sm:h-[650px]" // AÇIKKEN: Büyük ve Ferah
+            : "scale-0 opacity-0 translate-y-20 w-0 h-0" // KAPALIYKEN: Yok
         }`}
       >
-        {/* HEADER: Kurumsal Lacivert */}
+        {/* HEADER */}
         <div className="relative flex items-center justify-between bg-[var(--color-brand-navy)] p-5 text-white shadow-md z-10">
-          
           <div className="flex items-center gap-4">
-            {/* Avatar */}
             <div className="relative">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 backdrop-blur border border-white/20">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 backdrop-blur border border-white/20 shadow-inner">
                    <Bot className="h-7 w-7 text-[var(--color-brand-gold)]" />
                 </div>
-                {/* Online Indicator */}
+                {/* Online Işığı */}
                 <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-500 ring-2 ring-[var(--color-brand-navy)] animate-pulse"></span>
             </div>
-            
-            {/* Başlıklar */}
             <div>
               <h3 className="text-base font-bold tracking-wide text-white leading-tight">
                 Dr. Öztan Yasun
               </h3>
-              <p className="text-[11px] text-[var(--color-brand-gold)] font-bold tracking-widest uppercase opacity-90">
+              <p className="text-[10px] text-[var(--color-brand-gold)] font-bold tracking-widest uppercase opacity-90">
                 AI Asistan
               </p>
             </div>
           </div>
-
-          {/* Kapat Butonu */}
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors"
-          >
+          <button onClick={() => setIsOpen(false)} className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors">
             <X size={20} />
           </button>
         </div>
 
         {/* MESAJ LİSTESİ */}
-        <div className="flex-1 space-y-5 overflow-y-auto bg-slate-50 p-5 scrollbar-thin scrollbar-thumb-slate-300">
+        <div className="flex-1 space-y-6 overflow-y-auto bg-[#F8FAFC] p-5 scrollbar-thin scrollbar-thumb-slate-300">
           {messages.map((msg, index) => (
-            <div
-              key={`${msg.role}-${index}`}
-              className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-            >
-              {/* Bot İkonu (Sadece soldaysa) */}
+            <div key={`${msg.role}-${index}`} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
               {msg.role === "model" && (
                  <div className="w-8 h-8 rounded-full bg-[var(--color-brand-navy)] flex items-center justify-center text-white mr-3 shrink-0 shadow-sm mt-auto mb-1">
                     <Sparkles size={14} />
                  </div>
               )}
-
-              <div
-                className={`max-w-[80%] rounded-2xl px-5 py-3.5 text-sm leading-relaxed shadow-sm ${
+              <div className={`max-w-[85%] rounded-2xl px-5 py-3.5 text-sm leading-relaxed shadow-sm ${
                   msg.role === "user"
-                    ? "bg-[var(--color-brand-navy)] text-white rounded-br-none" 
-                    : "bg-white text-slate-700 border border-slate-200 rounded-bl-none"
-                }`}
-              >
+                    ? "bg-[var(--color-brand-navy)] text-white rounded-br-none shadow-blue-900/10" 
+                    : "bg-white text-slate-700 border border-slate-100 rounded-bl-none shadow-slate-200/50"
+                }`}>
                 {msg.role === "model" ? (
-                  // Markdown stilleri (Linkler gold olur)
                   <div className="markdown-content text-sm [&_p]:mb-2 [&_p:last-child]:mb-0 [&_strong]:font-bold [&_strong]:text-inherit [&_a]:text-[var(--color-brand-gold)] [&_a]:underline [&_a]:font-bold">
-                    <ReactMarkdown components={{ a: (props) => <a {...props} target="_blank" /> }}>
-                      {msg.parts[0]?.text || ""}
-                    </ReactMarkdown>
+                    <ReactMarkdown components={{ a: (props) => <a {...props} target="_blank" /> }}>{msg.parts[0]?.text || ""}</ReactMarkdown>
                   </div>
                 ) : (
                   msg.parts[0]?.text
                 )}
               </div>
-
-              {/* User İkonu (Sadece sağdaysa) */}
-              {msg.role === "user" && (
-                 <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 ml-3 shrink-0 mt-auto mb-1">
-                    <User size={16} />
-                 </div>
-              )}
             </div>
           ))}
-
-          {/* Yükleniyor Animasyonu */}
           {isLoading && (
             <div className="flex justify-start">
                <div className="w-8 h-8 rounded-full bg-[var(--color-brand-navy)] flex items-center justify-center text-white mr-3 shrink-0 shadow-sm mt-auto mb-1">
                   <Sparkles size={14} />
                </div>
-               <div className="flex items-center gap-2 rounded-2xl rounded-bl-none border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                  <span className="flex gap-1">
+               <div className="flex items-center gap-2 rounded-2xl rounded-bl-none border border-slate-100 bg-white px-4 py-3 shadow-sm">
+                  <div className="flex gap-1.5">
                      <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                      <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                      <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
-                  </span>
+                  </div>
                </div>
             </div>
           )}
@@ -213,11 +178,11 @@ const ChatWidget = () => {
         </div>
 
         {/* INPUT ALANI */}
-        <div className="border-t border-slate-200 bg-white p-4">
-          <div className="flex items-center gap-2 rounded-full border border-slate-300 bg-white px-2 py-2 pr-2 shadow-sm focus-within:border-[var(--color-brand-navy)] focus-within:ring-2 focus-within:ring-[var(--color-brand-navy)]/10 transition-all">
+        <div className="border-t border-slate-100 bg-white p-4 pb-5">
+          <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50/50 px-2 py-2 pr-2 shadow-inner focus-within:border-[var(--color-brand-navy)] focus-within:ring-1 focus-within:ring-[var(--color-brand-navy)]/20 transition-all">
             <input
-              className="flex-1 bg-transparent px-4 text-sm text-slate-700 placeholder-slate-400 outline-none"
-              placeholder="Sorunuzu buraya yazın..."
+              className="flex-1 bg-transparent px-4 text-sm text-slate-800 placeholder-slate-400 outline-none"
+              placeholder="Bir soru sorun..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
@@ -225,41 +190,32 @@ const ChatWidget = () => {
             <button
               onClick={sendMessage}
               disabled={!input.trim() || isLoading}
-              className="h-10 w-10 flex items-center justify-center rounded-full bg-[var(--color-brand-navy)] text-white shadow-md transition-all hover:bg-[var(--color-brand-navy-light)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-10 w-10 flex items-center justify-center rounded-full bg-[var(--color-brand-navy)] text-white shadow-lg shadow-blue-900/20 transition-all hover:bg-[var(--color-brand-navy-light)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
             >
               {isLoading ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} className="ml-0.5" />}
             </button>
           </div>
-          <div className="mt-3 text-center">
-             <p className="text-[10px] text-slate-400 font-medium">
-                Size en iyi deneyimi sunmak için yapay zeka tarafından desteklenmektedir.
-             </p>
-          </div>
         </div>
       </div>
 
-      {/* --- AÇMA BUTONU (FAB) --- */}
+      {/* --- AÇMA BUTONU (FAB) - BOYUT SABİT --- */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`pointer-events-auto flex items-center justify-center rounded-full shadow-[0_8px_30px_rgba(15,23,42,0.3)] transition-all duration-300 transform hover:scale-110 active:scale-95 border-[3px] border-white
+        className={`pointer-events-auto group flex items-center justify-center rounded-full shadow-[0_8px_40px_rgba(15,23,42,0.4)] transition-all duration-500 transform hover:scale-105 active:scale-95 border-[4px] border-white w-[72px] h-[72px]
           ${isOpen 
-            ? "w-14 h-14 bg-slate-100 text-slate-500 rotate-90" 
-            : "w-16 h-16 bg-[var(--color-brand-navy)] text-[var(--color-brand-gold)]"
+            ? "bg-slate-100 text-slate-500 rotate-90 shadow-none" 
+            : "bg-gradient-to-tr from-[var(--color-brand-navy)] to-[#2c3a57] text-[var(--color-brand-gold)]"
           }`}
         aria-label={isOpen ? "Sohbeti kapat" : "Asistanla konuş"}
       >
         {isOpen ? (
-           <X size={24} />
+           <X size={28} />
         ) : (
-           <MessageSquare size={32} strokeWidth={2.5} className="fill-[var(--color-brand-navy)]" />
-        )}
-        
-        {/* Bildirim Balonu (Kapalıyken) */}
-        {!isOpen && (
-           <span className="absolute top-0 right-0 flex h-4 w-4 -mt-1 -mr-1">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
-           </span>
+           <div className="relative">
+              <MessageSquare size={34} strokeWidth={2} className="fill-[var(--color-brand-navy)] stroke-[var(--color-brand-gold)]" />
+              {/* Animasyonlu Yıldız (Sadece Kapalıyken Dikkat Çekmek İçin) */}
+              <Sparkles size={16} className="absolute -top-1 -right-2 text-white animate-pulse" />
+           </div>
         )}
       </button>
     </div>

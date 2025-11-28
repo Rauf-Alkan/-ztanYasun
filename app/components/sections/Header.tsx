@@ -38,16 +38,16 @@ const Header = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-300 border-b border-gray-100
-      ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-2" : "bg-white py-4"}`}
+      className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-300 border-b border-transparent
+      ${scrolled ? "bg-[var(--color-brand-navy)]/95 backdrop-blur-xl shadow-lg py-3" : "bg-[var(--color-brand-navy)] py-4"}`}
     >
       {/* Container Custom ile tam hizalama sağlandı */}
-      <div className="container-custom flex items-center justify-between">
+      <div className="container-custom flex items-center gap-8">
         
         {/* LOGO ALANI */}
         <Link href="/" className="flex items-center gap-3 group">
           {/* Logo boyutlandırması optimize edildi */}
-          <div className="relative w-10 h-10 overflow-hidden">
+          <div className="relative w-11 h-11 overflow-hidden rounded-xl bg-white/10 p-2">
              <Image
               src="/logo.png"
               alt="Dr. Öztan Yasun"
@@ -57,33 +57,28 @@ const Header = () => {
               priority
             />
           </div>
-          <div className="flex flex-col">
-            <span className="font-heading text-lg font-bold text-[var(--color-brand-navy)] leading-tight">
-              Dr. Öztan Yasun
-            </span>
-            <span className="text-xs text-slate-500 font-medium tracking-wider">
-              ESTETİK DİŞ HEKİMLİĞİ
-            </span>
-          </div>
+          <span className="font-heading text-xl font-semibold text-white leading-tight">
+            Dr. Öztan Yasun
+          </span>
         </Link>
 
         {/* DESKTOP MENU */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-8 ml-auto">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`relative text-sm font-semibold transition-colors duration-200 
+              className={`group relative text-sm font-semibold transition-colors duration-200 
               ${isLinkActive(link.href) 
-                ? "text-[var(--color-brand-navy)]" 
-                : "text-slate-600 hover:text-[var(--color-brand-navy)]"
+                ? "text-white" 
+                : "text-slate-200 hover:text-white"
               }`}
             >
               {link.label}
-              {/* Aktif Link Alt Çizgisi */}
-              {isLinkActive(link.href) && (
-                <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-[var(--color-brand-gold)] rounded-full" />
-              )}
+              <span
+                className={`absolute -bottom-2 left-0 h-0.5 w-full origin-left scale-x-0 rounded-full bg-[var(--color-brand-gold)] transition-transform duration-300
+                group-hover:scale-x-100 ${isLinkActive(link.href) ? "scale-x-100" : ""}`}
+              />
             </Link>
           ))}
         </nav>
@@ -93,9 +88,9 @@ const Header = () => {
           <Link
             href="/iletisim"
             className="hidden lg:inline-flex items-center justify-center px-6 py-2.5 
-            bg-[var(--color-brand-navy)] text-white text-sm font-semibold rounded-lg 
-            transition-all duration-300 hover:bg-[var(--color-brand-navy-light)] 
-            hover:shadow-lg hover:-translate-y-0.5 ring-offset-2 focus:ring-2 ring-[var(--color-brand-navy)]"
+            bg-[var(--color-brand-gold)] text-[var(--color-brand-navy)] text-sm font-semibold rounded-xl 
+            transition-all duration-300 hover:bg-[var(--color-brand-gold-hover)] 
+            hover:shadow-lg hover:-translate-y-0.5 ring-offset-2 focus:ring-2 ring-[var(--color-brand-gold)]"
           >
             Randevu Al
           </Link>
@@ -104,7 +99,7 @@ const Header = () => {
         {/* MOBİL MENÜ BUTONU */}
         <button
           onClick={toggleMenu}
-          className="lg:hidden p-2 text-[var(--color-brand-navy)] hover:bg-slate-50 rounded-md transition-colors"
+          className="lg:hidden p-2 text-white hover:bg-white/10 rounded-md transition-colors"
           aria-label="Menüyü Aç"
         >
           {menuOpen ? (
@@ -121,7 +116,7 @@ const Header = () => {
 
       {/* MOBİL MENÜ DROPDOWN */}
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-xl lg:hidden animate-fade-up">
+        <div className="absolute top-full left-0 right-0 bg-[var(--color-brand-navy)] text-white border-b border-white/10 shadow-xl lg:hidden animate-fade-up">
           <nav className="flex flex-col p-4 space-y-2 container-custom">
             {navLinks.map((link) => (
               <Link
@@ -130,19 +125,19 @@ const Header = () => {
                 onClick={closeMenu}
                 className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors
                 ${isLinkActive(link.href)
-                  ? "bg-[var(--color-brand-gray)] text-[var(--color-brand-navy)]"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-[var(--color-brand-navy)]"
+                  ? "bg-white/10 text-white"
+                  : "text-slate-200 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="pt-4 mt-2 border-t border-gray-100">
+            <div className="pt-4 mt-2 border-t border-white/10">
               <Link
                 href="/iletisim"
                 onClick={closeMenu}
                 className="flex items-center justify-center w-full px-4 py-3 
-                bg-[var(--color-brand-navy)] text-white font-semibold rounded-lg text-sm"
+                bg-[var(--color-brand-gold)] text-[var(--color-brand-navy)] font-semibold rounded-lg text-sm"
               >
                 Hemen Randevu Al
               </Link>

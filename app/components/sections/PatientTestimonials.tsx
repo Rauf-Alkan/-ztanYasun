@@ -57,7 +57,7 @@ const PatientTestimonials = () => {
   };
 
   return (
-    <section className="section-spacing bg-gradient-to-b from-white to-[var(--color-brand-gray)] overflow-hidden">
+    <section className="section-spacing bg-[#F8FAFC] overflow-hidden">
       <div className="container-custom">
         
         <div className="text-center mb-16">
@@ -72,19 +72,19 @@ const PatientTestimonials = () => {
           </p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
+        <div className="relative max-w-5xl mx-auto">
           
           {/* Desktop Oklar */}
-          <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between px-[-60px] z-10 w-full pointer-events-none">
+          <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between px-0 z-10 w-full pointer-events-none">
              <button 
                onClick={handlePrev} 
-               className="pointer-events-auto w-12 h-12 rounded-full bg-white text-[var(--color-brand-navy)] shadow-lg flex items-center justify-center hover:bg-[var(--color-brand-navy)] hover:text-white transition-all -ml-16"
+               className="pointer-events-auto w-12 h-12 rounded-full bg-white text-[var(--color-brand-navy)] shadow-xl border border-slate-100 flex items-center justify-center hover:bg-[var(--color-brand-navy)] hover:text-white hover:-translate-y-1 transition-all -ml-16"
              >
                 <LuArrowLeft className="w-5 h-5" />
              </button>
              <button 
                onClick={handleNext} 
-               className="pointer-events-auto w-12 h-12 rounded-full bg-white text-[var(--color-brand-navy)] shadow-lg flex items-center justify-center hover:bg-[var(--color-brand-navy)] hover:text-white transition-all -mr-16"
+               className="pointer-events-auto w-12 h-12 rounded-full bg-white text-[var(--color-brand-navy)] shadow-xl border border-slate-100 flex items-center justify-center hover:bg-[var(--color-brand-navy)] hover:text-white hover:-translate-y-1 transition-all -mr-16"
              >
                 <LuArrowRight className="w-5 h-5" />
              </button>
@@ -102,7 +102,19 @@ const PatientTestimonials = () => {
              >
                 {patientReviews.map((review, idx) => (
                    <div key={idx} className="w-full flex-shrink-0 px-2 md:px-4">
-                      <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-slate-100 text-center relative">
+                      <div className="bg-white rounded-[26px] p-9 md:p-12 shadow-2xl shadow-slate-200/60 border border-white text-center relative">
+                        
+                         <div className="absolute right-6 top-6 flex items-center gap-2 text-xs font-semibold text-slate-500">
+                            <div className="flex items-center gap-[1px] text-base font-black leading-none">
+                              <span className="text-[#4285F4]">G</span>
+                              <span className="text-[#EA4335]">o</span>
+                              <span className="text-[#FBBC05]">o</span>
+                              <span className="text-[#4285F4]">g</span>
+                              <span className="text-[#34A853]">l</span>
+                              <span className="text-[#EA4335]">e</span>
+                            </div>
+                            <span className="text-slate-500">Reviews</span>
+                         </div>
                          
                          <div className="flex flex-col items-center gap-3 mb-8">
                             <div className="flex items-center gap-1">
@@ -136,15 +148,15 @@ const PatientTestimonials = () => {
                    </div>
                 ))}
              </div>
-          </div>
+         </div>
 
-          <div className="flex justify-center gap-2 mt-8">
+          <div className="flex justify-center gap-3 mt-8">
              {patientReviews.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    idx === currentIndex ? "w-8 bg-[var(--color-brand-navy)]" : "w-2 bg-slate-300"
+                  className={`h-2.5 rounded-full transition-all duration-300 border border-[var(--color-brand-navy)]/20 ${
+                    idx === currentIndex ? "w-10 bg-[var(--color-brand-navy)] shadow-[0_5px_20px_-8px_rgba(12,27,51,0.45)]" : "w-3 bg-white hover:w-6 hover:bg-[var(--color-brand-navy)]/20"
                   }`}
                   aria-label={`Yorum ${idx + 1}`}
                 />
