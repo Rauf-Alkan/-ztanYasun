@@ -60,6 +60,7 @@ const BlogGrid = ({ blogs }: BlogGridProps) => {
           <h1 className="font-heading text-5xl font-semibold text-[var(--color-brand-navy)] leading-[1.04]">
             Diş Hekimliği Rehberi
           </h1>
+          <div className="mx-auto h-[3px] w-16 rounded-full bg-[var(--color-brand-gold)]/80" />
           <p className="text-slate-600 text-lg leading-relaxed">
             Ağız ve diş sağlığı hakkında merak ettiğiniz her şey, güncel tedavi yöntemleri ve uzman tavsiyeleri.
           </p>

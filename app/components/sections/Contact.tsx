@@ -40,8 +40,9 @@ const Contact = () => {
         </div>
         <div className="container-custom relative text-center space-y-5">
           <h1 className="font-heading text-5xl font-semibold tracking-tight text-[var(--color-brand-navy)] leading-[1.05]">
-            İletişim & Randevu
+            İletişim
           </h1>
+          <div className="mx-auto h-[3px] w-16 rounded-full bg-[var(--color-brand-gold)]/80" />
           <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
             Hayalinizdeki gülüşe kavuşmak için ilk adımı atın. Hasta koordinatörümüz size kısa sürede dönüş sağlar.
           </p>
@@ -65,13 +66,13 @@ const Contact = () => {
                 </p>
               </div>
 
-              <div className="space-y-6 bg-[#F9FAFB] rounded-2xl p-8 border border-slate-100">
+              <div className="space-y-6 bg-[#F9FAFB] rounded-2xl p-8 border border-slate-100 shadow-[0_10px_40px_rgba(12,27,51,0.05)]">
                 {infoItems.map((item, index) => (
                   <div key={index} className="grid grid-cols-[auto_1fr] items-start gap-4 p-4 rounded-xl hover:bg-white hover:shadow-sm transition-all">
                     <div className="w-11 h-11 rounded-full bg-white text-[var(--color-brand-navy)] flex items-center justify-center shadow-sm border border-slate-100 shrink-0 hover:text-[var(--color-brand-gold)] transition-colors">
                        {item.icon}
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-1 border-l border-[var(--color-brand-gold)]/40 pl-3">
                        <h3 className="text-sm font-semibold text-[var(--color-brand-navy)]">
                          {item.label}
                        </h3>
