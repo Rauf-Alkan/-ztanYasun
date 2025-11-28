@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { LuMicroscope, LuHeartHandshake, LuShieldCheck } from "react-icons/lu";
+import { 
+  LuMicroscope, 
+  LuHeartHandshake, 
+  LuShieldCheck, 
+  LuAward, 
+  LuStar, 
+  LuGem, 
+  LuSmile, 
+  LuActivity 
+} from "react-icons/lu";
 
 export const metadata: Metadata = {
   title: "Hakkımızda | Dr. Öztan Yasun",
@@ -12,10 +21,10 @@ export const dynamic = "force-dynamic";
 
 // --- VERİLER ---
 const stats = [
-  { label: "Yıllık Deneyim", value: "15+" },
-  { label: "Mutlu Hasta", value: "5.000+" },
-  { label: "Başarılı İmplant", value: "10k+" },
-  { label: "Google Puanı", value: "4.9" },
+  { label: "Yıllık Deneyim", value: "15+", icon: <LuAward className="w-5 h-5" /> },
+  { label: "Mutlu Hasta", value: "5.000+", icon: <LuSmile className="w-5 h-5" /> },
+  { label: "Tamamlanan İmplant", value: "10.000+", icon: <LuShieldCheck className="w-5 h-5" /> },
+  { label: "Google Puanı", value: "4.9", icon: <LuStar className="w-5 h-5" /> },
 ];
 
 const education = [
@@ -41,19 +50,19 @@ const education = [
 
 const features = [
   {
-    icon: <LuShieldCheck className="w-8 h-8" />,
-    title: "Güvenilir Tedavi",
-    desc: "Kanıtlanmış yöntemler ve garantili süreçlerle sağlığınız güvende."
+    icon: <LuMicroscope className="w-7 h-7" />,
+    title: "Dijital Cerrahi",
+    desc: "3D tomografi ve rehberli implant ile milimetrik planlama, öngörülebilir sonuç."
   },
   {
-    icon: <LuMicroscope className="w-8 h-8" />,
-    title: "Modern Teknoloji",
-    desc: "Dijital ölçü (CAD/CAM) ve 3D tomografi ile hatasız teşhis."
+    icon: <LuHeartHandshake className="w-7 h-7" />,
+    title: "Butik Takip",
+    desc: "Her vaka için kişiye özel plan, yakın takip ve rahatlatan iletişim."
   },
   {
-    icon: <LuHeartHandshake className="w-8 h-8" />,
-    title: "Konfor Odaklı",
-    desc: "Ankara Kızılay'da, ağrı ve stresi minimize eden butik klinik deneyimi."
+    icon: <LuGem className="w-7 h-7" />,
+    title: "Estetik Zarafet",
+    desc: "Yüz oranlarına uygun tasarım, doğal ışık geçirgenliği ve premium materyaller."
   }
 ];
 
@@ -61,52 +70,73 @@ const AboutPage = () => {
   return (
     <main className="bg-white">
       
-      {/* --- 1. HERO BÖLÜMÜ (Kurumsal Lacivert) --- */}
-      <section className="relative bg-[var(--color-brand-navy)] py-20 lg:py-32 overflow-hidden">
-        {/* Dekoratif Arka Plan Deseni */}
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-           <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-             <path d="M0 100 L100 0 L100 100 Z" fill="white" />
-           </svg>
+      {/* --- 1. HERO BÖLÜMÜ (Açık Gri & Premium) --- */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-white via-[#F8FAFC] to-[#F1F5F9] py-20 lg:py-28">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[var(--color-brand-gold)]/10 blur-3xl" />
+          <div className="absolute right-0 top-10 h-72 w-72 rounded-full bg-[var(--color-brand-navy)]/5 blur-3xl" />
         </div>
-        
-        <div className="container-custom relative z-10 text-center">
-          <span className="inline-block px-3 py-1 mb-6 border border-[var(--color-brand-gold)] rounded-full text-[var(--color-brand-gold)] text-xs font-bold tracking-[0.25em] uppercase bg-[var(--color-brand-navy)]/50 backdrop-blur-sm">
-            Klinik & Vizyon
-          </span>
-          <h1 className="font-heading text-4xl md:text-6xl text-white mb-6 leading-tight">
-            Estetik ve Fonksiyonun <br/>
-            <span className="text-[var(--color-brand-gold)]">Mükemmel Uyumu</span>
-          </h1>
-          <p className="text-blue-100 max-w-2xl mx-auto text-lg leading-relaxed font-light">
-            Dr. Öztan Yasun liderliğinde, modern diş hekimliğinin tüm imkanlarını estetik bakış açısıyla buluşturuyoruz.
-          </p>
+        <div className="container-custom relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[var(--color-brand-gold)]/60 text-[var(--color-brand-navy)] text-xs font-bold tracking-[0.25em] uppercase">
+              Klinik & Vizyon
+            </span>
+            <h1 className="font-heading text-4xl md:text-6xl text-[var(--color-brand-navy)] leading-[1.05]">
+              Estetik ve Fonksiyonun <br />
+              <span className="text-[var(--color-brand-gold)]">Mükemmel Uyumu</span>
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">
+              Dr. Öztan Yasun liderliğinde, modern diş hekimliğinin tüm imkanlarını estetik bakış açısıyla buluşturuyor; her gülüşe kurumsal bir imza atıyoruz.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/iletisim" className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-[var(--color-brand-navy)] text-white font-semibold shadow-lg hover:bg-[var(--color-brand-navy-light)] transition-all">
+                Randevu Planla
+              </Link>
+              <Link href="/hizmetler" className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border-2 border-[var(--color-brand-navy)] text-[var(--color-brand-navy)] font-semibold hover:bg-[var(--color-brand-navy)] hover:text-white transition-all">
+                Klinik Protokoller
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="relative aspect-[4/5] w-full max-w-[520px] ml-auto overflow-hidden rounded-[28px] shadow-2xl shadow-slate-300/40 border border-white ring-1 ring-[var(--color-brand-navy)]/10">
+              <Image
+                src="/doctor2.webp"
+                alt="Dr. Öztan Yasun"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
+            </div>
+            <div className="absolute -left-8 -bottom-8 h-32 w-32 rounded-3xl bg-white shadow-xl shadow-slate-200/70 border border-slate-100/70" />
+          </div>
         </div>
       </section>
 
-      {/* --- 2. BİYOGRAFİ & HİKAYE (Grid Yapısı) --- */}
+      {/* --- 2. BİYOGRAFİ & HİKAYE (Fotoğraf Sol, Metin Sağ) --- */}
       <section className="section-spacing bg-white">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1.1fr] gap-16 items-center">
             
             {/* SOL: Fotoğraf Alanı */}
-            <div className="relative order-2 lg:order-1">
-              {/* Resim Çerçevesi */}
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-slate-200 border border-slate-100">
+            <div className="relative">
+              <div className="relative aspect-[4/5] rounded-[30px] overflow-hidden shadow-2xl shadow-slate-200 border border-white ring-1 ring-[var(--color-brand-navy)]/10">
                 <Image
-                  src="/doctor1.webp" // Mevcut görselin
+                  src="/doctor3.webp"
                   alt="Dr. Öztan Yasun"
                   fill
                   className="object-cover"
                 />
               </div>
-              {/* Dekoratif Altın Kutu (Alperen Özcan tarzı detay) */}
-              <div className="absolute -bottom-8 -right-8 w-48 h-48 border-[3px] border-[var(--color-brand-gold)] rounded-2xl -z-10 hidden lg:block opacity-30" />
-              <div className="absolute -top-8 -left-8 w-32 h-32 bg-[var(--color-brand-navy)]/5 rounded-full -z-10 hidden lg:block" />
+              <div className="absolute -bottom-8 -right-10 w-48 h-48 border-[3px] border-[var(--color-brand-gold)] rounded-3xl -z-10 hidden lg:block opacity-30" />
             </div>
 
             {/* SAĞ: Metin Alanı */}
-            <div className="space-y-8 order-1 lg:order-2">
+            <div 
+              className="relative space-y-8 bg-[#F8FAFC] rounded-[28px] p-10 shadow-lg shadow-slate-200/50 border border-slate-100"
+              style={{ backgroundImage: "radial-gradient(circle at 20% 20%, rgba(12,27,51,0.04) 0, transparent 35%), radial-gradient(circle at 80% 0%, rgba(197,165,114,0.08) 0, transparent 30%)" }}
+            >
               <h2 className="font-heading text-3xl md:text-4xl text-[var(--color-brand-navy)] leading-tight">
                 &ldquo;Her hasta kendi hikayesiyle gelir, biz o hikayeye en güzel gülüşü ekleriz.&rdquo;
               </h2>
@@ -124,12 +154,21 @@ const AboutPage = () => {
               </div>
 
               {/* İmza / Unvan */}
-              <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-                 <div className="w-12 h-12 bg-[var(--color-brand-navy)] text-white flex items-center justify-center rounded-full text-xl font-heading font-bold">
-                    ÖY
+              <div className="flex items-center gap-4 pt-4 border-t border-slate-200">
+                 <div className="w-14 h-14 bg-white border border-[var(--color-brand-gold)]/50 shadow-sm flex items-center justify-center rounded-full">
+                    <svg viewBox="0 0 120 60" aria-hidden="true" className="w-12 h-6 text-[var(--color-brand-navy)]">
+                      <path
+                        d="M10 40c15-10 25-12 34-8 5 2 9 7 13 14 12-30 25-38 46-28-11-4-19 10-24 30"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                  </div>
                  <div>
-                    <p className="text-[var(--color-brand-navy)] font-bold text-lg">Dr. Öztan Yasun</p>
+                    <p className="text-[var(--color-brand-navy)] font-semibold text-lg">Dr. Öztan Yasun</p>
                     <p className="text-xs text-[var(--color-brand-gold)] font-bold uppercase tracking-wider">Kurucu Hekim</p>
                  </div>
               </div>
@@ -139,27 +178,28 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* --- 3. İSTATİSTİK ŞERİDİ (Güven Sinyalleri) --- */}
-      <section className="py-16 bg-[var(--color-brand-gray)] border-y border-slate-200">
+      {/* --- 3. İSTATİSTİK ŞERİDİ (Kompakt Band) --- */}
+      <section className="py-12 bg-[var(--color-brand-gray)] border-y border-slate-200/80">
         <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {stats.map((stat, idx) => (
-              <div key={idx} className="text-center group">
-                <p className="text-4xl lg:text-5xl font-heading font-bold text-[var(--color-brand-navy)] mb-2 group-hover:scale-110 transition-transform duration-300">
-                  {stat.value}
-                </p>
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold group-hover:text-[var(--color-brand-gold)] transition-colors">
-                  {stat.label}
-                </p>
+              <div key={idx} className="flex items-center gap-3 rounded-2xl bg-white shadow-sm border border-slate-100 px-4 py-3 hover:shadow-lg transition-all">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-brand-gold)]/15 text-[var(--color-brand-gold)]">
+                  {stat.icon}
+                </div>
+                <div>
+                  <p className="text-lg font-heading font-semibold text-[var(--color-brand-navy)] leading-tight">{stat.value}</p>
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500 font-semibold">{stat.label}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- 4. AKADEMİK ZAMAN ÇİZELGESİ (Timeline) --- */}
-      <section className="section-spacing bg-white">
-        <div className="container-custom max-w-4xl">
+      {/* --- 4. AKADEMİK ZAMAN ÇİZELGESİ (Dikey Çizgi) --- */}
+      <section className="section-spacing bg-[#F7F8FA]">
+        <div className="container-custom max-w-5xl">
           <div className="text-center mb-16">
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--color-brand-gold)] block mb-3">
               Kariyer Yolculuğu
@@ -169,65 +209,49 @@ const AboutPage = () => {
             </h2>
           </div>
 
-          <div className="relative space-y-12 pl-8 md:pl-0 border-l-2 border-slate-100 md:border-none">
-             {/* Mobilde solda çizgi, desktopta ortada hayali çizgi */}
-             {education.map((item, index) => (
-               <div key={index} className="md:flex items-center justify-between group">
-                  
-                  {/* Yıl - Desktopta (Sol/Sağ Değişmeli) */}
-                  <div className="hidden md:block w-[45%] text-right group-odd:order-1 group-even:order-3">
-                     <span className={`text-5xl font-heading font-bold text-slate-100 group-hover:text-[var(--color-brand-gold)] transition-colors duration-500 ${index % 2 === 1 ? "text-left block" : ""}`}>
-                        {item.year}
-                     </span>
+          <div className="relative pl-6 md:pl-12">
+            <div className="absolute left-3 md:left-6 top-0 bottom-0 w-[2px] bg-slate-200" />
+            <div className="space-y-8">
+              {education.map((item, index) => (
+                <div key={index} className="relative flex gap-6 md:gap-8">
+                  <div className="relative z-10 mt-1 flex items-center justify-center h-10 w-10 rounded-full bg-white border border-slate-200 shadow-sm">
+                    <span className="text-sm font-semibold text-[var(--color-brand-navy)]">{item.year}</span>
+                    <div className="absolute left-1/2 -translate-x-1/2 top-10 h-full w-[2px] bg-slate-200 hidden last:block" />
                   </div>
-
-                  {/* Orta Nokta */}
-                  <div className="absolute left-[-9px] md:relative md:left-auto w-4 h-4 rounded-full bg-[var(--color-brand-navy)] border-4 border-white shadow-md z-10 md:group-odd:order-2 md:group-even:order-2"></div>
-
-                  {/* İçerik Kartı */}
-                  <div className="md:w-[45%] group-odd:order-3 group-even:order-1 ml-6 md:ml-0">
-                     <div className="bg-[var(--color-brand-gray)] p-6 rounded-2xl hover:shadow-lg transition-all duration-300 border border-transparent hover:border-[var(--color-brand-gold)]/20">
-                        <span className="md:hidden text-2xl font-heading font-bold text-[var(--color-brand-navy)] mb-2 block">
-                           {item.year}
-                        </span>
-                        <h3 className="text-lg font-bold text-[var(--color-brand-navy)] mb-1">
-                           {item.school}
-                        </h3>
-                        <p className="text-sm font-semibold text-[var(--color-brand-gold)] mb-3">
-                           {item.degree}
-                        </p>
-                        <p className="text-sm text-slate-600 leading-relaxed">
-                           {item.desc}
-                        </p>
-                     </div>
+                  <div className="flex-1 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-lg transition-all">
+                    <div className="p-6">
+                      <h3 className="text-lg font-semibold text-[var(--color-brand-navy)]">{item.school}</h3>
+                      <p className="text-sm font-semibold text-[var(--color-brand-gold)] mb-3">{item.degree}</p>
+                      <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
+                    </div>
                   </div>
-
-               </div>
-             ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* --- 5. NEDEN BİZ? (Features Grid) --- */}
-      <section className="section-spacing bg-[var(--color-brand-navy)] text-white">
+      {/* --- 5. NEDEN BİZ? (Premium Kartlar) --- */}
+      <section className="section-spacing bg-white">
         <div className="container-custom">
            <div className="text-center mb-16">
-              <h2 className="font-heading text-3xl md:text-4xl mb-4">
+              <h2 className="font-heading text-3xl md:text-4xl mb-4 text-[var(--color-brand-navy)]">
                  Sizi Neler Bekliyor?
               </h2>
-              <p className="text-blue-200 max-w-2xl mx-auto">
+              <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed">
                  Kliniğimizde sadece diş tedavisi değil, kendinizi özel hissedeceğiniz bir deneyim sunuyoruz.
               </p>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {features.map((feature, idx) => (
-                 <div key={idx} className="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors text-center group">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[var(--color-brand-gold)] text-[var(--color-brand-navy)] mb-6 group-hover:scale-110 transition-transform">
+                 <div key={idx} className="bg-[#F8FAFC] border border-slate-100 p-8 rounded-2xl shadow-md hover:shadow-xl transition-all">
+                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white text-[var(--color-brand-gold)] border border-[var(--color-brand-gold)]/40 mb-5">
                        {feature.icon}
                     </div>
-                    <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                    <p className="text-blue-100 text-sm leading-relaxed">
+                    <h3 className="text-xl font-semibold text-[var(--color-brand-navy)] mb-3">{feature.title}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
                        {feature.desc}
                     </p>
                  </div>
@@ -237,16 +261,22 @@ const AboutPage = () => {
       </section>
 
       {/* --- 6. ALT CTA --- */}
-      <section className="py-24 bg-white text-center">
-         <div className="container-custom max-w-2xl">
-            <h2 className="font-heading text-3xl text-[var(--color-brand-navy)] mb-6">
-               Hayalinizdeki Gülüşe Bir Adım Kaldı
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-               <Link href="/iletisim" className="inline-flex justify-center items-center px-8 py-4 bg-[var(--color-brand-navy)] text-white font-bold rounded-lg hover:bg-[var(--color-brand-navy-light)] hover:shadow-lg transition-all">
+      <section className="py-24 bg-[#F2EDE7] text-[var(--color-brand-navy)]">
+         <div className="container-custom grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] items-center gap-10">
+            <div className="space-y-4">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--color-brand-gold)]">Son Adım</p>
+              <h2 className="font-heading text-3xl md:text-4xl leading-tight">
+                 Dr. Öztan Yasun ile kişiye özel, bilimsel ve estetik bir tedavi deneyimi için ilk adımı atın.
+              </h2>
+              <p className="text-slate-700 text-lg leading-relaxed">
+                 Sizi tanıdığımız anda, ihtiyaçlarınıza göre şekillenen premium bir tedavi planı oluşturuyoruz.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-end w-full">
+               <Link href="/iletisim" className="inline-flex justify-center items-center px-10 py-4 bg-[var(--color-brand-navy)] text-white font-semibold rounded-full hover:bg-[var(--color-brand-navy-light)] hover:shadow-lg transition-all">
                   Randevu Oluştur
                </Link>
-               <Link href="/hizmetler" className="inline-flex justify-center items-center px-8 py-4 border-2 border-[var(--color-brand-navy)] text-[var(--color-brand-navy)] font-bold rounded-lg hover:bg-[var(--color-brand-navy)] hover:text-white transition-all">
+               <Link href="/hizmetler" className="inline-flex justify-center items-center px-10 py-4 border-2 border-[var(--color-brand-navy)] text-[var(--color-brand-navy)] font-semibold rounded-full hover:bg-[var(--color-brand-navy)] hover:text-white transition-all">
                   Tedavileri İncele
                </Link>
             </div>
