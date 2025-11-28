@@ -102,7 +102,7 @@ const ChatWidget = () => {
 
   return (
     // Pointer-events-none: Kapalıyken arkadaki butonlara tıklanabilsin diye
-    <div className="fixed right-6 bottom-24 z-[9999] flex flex-col items-end font-sans pointer-events-none md:bottom-10 md:right-8">
+    <div className="fixed right-6 bottom-28 z-[9999] flex flex-col items-end font-sans pointer-events-none md:bottom-24 md:right-8">
       
       {/* --- SOHBET PENCERESİ (BALON) --- */}
       <div
