@@ -102,7 +102,7 @@ const ChatWidget = () => {
 
   return (
     // Pointer-events-none: Kapalıyken arkadaki butonlara tıklanabilsin diye
-    <div className="fixed right-6 bottom-24 z-[9999] flex flex-col items-end font-sans pointer-events-none md:bottom-8 md:right-8">
+    <div className="fixed right-6 bottom-24 z-[9999] flex flex-col items-end font-sans pointer-events-none md:bottom-10 md:right-8">
       
       {/* --- SOHBET PENCERESİ (BALON) --- */}
       <div
@@ -201,7 +201,7 @@ const ChatWidget = () => {
       {/* --- AÇMA BUTONU (FAB) - BOYUT SABİT --- */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`pointer-events-auto group flex items-center justify-center rounded-full shadow-[0_8px_40px_rgba(15,23,42,0.4)] transition-all duration-500 transform hover:scale-105 active:scale-95 border-[4px] border-white w-[72px] h-[72px]
+        className={`pointer-events-auto group flex items-center justify-center rounded-full shadow-[0_8px_40px_rgba(15,23,42,0.4)] transition-all duration-500 transform hover:scale-105 active:scale-95 border-2 border-white w-14 h-14
           ${isOpen 
             ? "bg-slate-100 text-slate-500 rotate-90 shadow-none" 
             : "bg-gradient-to-tr from-[var(--color-brand-navy)] to-[#2c3a57] text-[var(--color-brand-gold)]"

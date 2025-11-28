@@ -53,11 +53,11 @@ const BlogGrid = ({ blogs }: BlogGridProps) => {
   return (
     <>
       {/* --- ÜST BİLGİ ALANI --- */}
-      <section className="text-center max-w-2xl mx-auto mb-16 pt-16 pb-12 bg-[#F8FAFC] rounded-3xl">
-          <span className="text-[var(--color-brand-gold)] font-bold tracking-[0.3em] uppercase text-xs mb-4 block">
+      <section className="text-center max-w-3xl mx-auto mb-14 pt-20 pb-12 space-y-5">
+          <span className="text-[var(--color-brand-gold)] font-bold tracking-[0.3em] uppercase text-xs block">
             Klinik Kütüphanesi
           </span>
-          <h1 className="font-heading text-5xl font-semibold text-[var(--color-brand-navy)] mb-6 leading-[1.05]">
+          <h1 className="font-heading text-5xl font-semibold text-[var(--color-brand-navy)] leading-[1.04]">
             Diş Hekimliği Rehberi
           </h1>
           <p className="text-slate-600 text-lg leading-relaxed">
@@ -65,7 +65,7 @@ const BlogGrid = ({ blogs }: BlogGridProps) => {
           </p>
 
           {/* Arama Çubuğu */}
-          <div className="mt-8 relative max-w-lg mx-auto">
+          <div className="mt-6 relative max-w-2xl mx-auto">
              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400">
                 <LuSearch className="w-5 h-5" />
              </div>
@@ -74,7 +74,7 @@ const BlogGrid = ({ blogs }: BlogGridProps) => {
                 placeholder="Makale ara..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 shadow-sm text-base placeholder:text-slate-400 text-slate-700 bg-white focus:border-[var(--color-brand-navy)] focus:ring-1 focus:ring-[var(--color-brand-navy)] outline-none transition-all"
+                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 shadow-sm text-base placeholder:text-slate-400 text-slate-700 bg-white focus:border-[var(--color-brand-navy)] focus:ring-2 focus:ring-[var(--color-brand-navy)] outline-none transition-all"
              />
           </div>
       </section>

@@ -33,9 +33,13 @@ const Contact = () => {
   return (
     <>
       {/* --- HERO SECTION (Minimal) --- */}
-      <section className="py-16">
-        <div className="container-custom text-center space-y-4">
-          <h1 className="font-heading text-5xl font-semibold tracking-tight text-[var(--color-brand-navy)]">
+      <section className="relative overflow-hidden pt-24 pb-16">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -left-24 top-0 h-64 w-64 rounded-full bg-[var(--color-brand-gold)]/12 blur-3xl" />
+          <div className="absolute right-0 top-6 h-72 w-72 rounded-full bg-[var(--color-brand-navy)]/8 blur-3xl" />
+        </div>
+        <div className="container-custom relative text-center space-y-5">
+          <h1 className="font-heading text-5xl font-semibold tracking-tight text-[var(--color-brand-navy)] leading-[1.05]">
             İletişim & Randevu
           </h1>
           <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
